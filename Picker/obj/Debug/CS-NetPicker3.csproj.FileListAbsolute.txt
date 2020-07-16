@@ -1,0 +1,14 @@
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\bin\Debug\CS-NetPicker3.dll
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\bin\Debug\CS-NetPicker3.pdb
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\bin\Debug\Assembly-CSharp.dll
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\bin\Debug\ColossalManaged.dll
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\bin\Debug\ICities.dll
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\bin\Debug\UnityEngine.dll
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\bin\Debug\PopsApiWrapper.dll
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\bin\Debug\Assembly-CSharp-firstpass.dll
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\obj\Debug\CS-NetPicker3.csprojAssemblyReference.cache
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\obj\Debug\CS-NetPicker3.csproj.CoreCompileInputs.cache
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\obj\Debug\CS-NetPicker3.csproj.CopyComplete
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\obj\Debug\CS-NetPicker3.dll
+D:\CSL Mods\Picker3\Repo\CS-NetPicker3\obj\Debug\CS-NetPicker3.pdb
