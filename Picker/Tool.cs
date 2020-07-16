@@ -1,4 +1,5 @@
 ﻿using ColossalFramework.Globalization;
+using ColossalFramework.Plugins;
 using ColossalFramework.UI;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,31 @@ namespace Picker
         public Vector3 stepOverPosition = Vector3.zero;
         public Vector3 mouseCurrentPosition = Vector3.zero;
 
+        internal static int findItVersion = 0;
+
+        private static Dictionary<String, int> MenuIndex = new Dictionary<string, int>
+        {
+            ["Ploppable"] = 2,
+            ["Growable"] = 3,
+            ["RICO"] = 4,
+            ["Prop"] = 4,
+            ["Decal"] = 5
+        };
+
         protected override void Awake()
         {
             m_toolController = FindObjectOfType<ToolController>();
             enabled = false;
 
+            findItVersion = GetFindItVersion();
+
             m_button = UIView.GetAView().AddUIComponent(typeof(UIPickerButton)) as UIPickerButton;
+
+            if (IsRicoEnabled())
+            { // Will need changed if/when Find It 2 adds more filter types
+                MenuIndex["Prop"] += findItVersion;
+                MenuIndex["Decal"] += findItVersion;
+            }
         }
 
         private Dictionary<string, UIComponent> _componentCache = new Dictionary<string, UIComponent>();
@@ -50,22 +70,13 @@ namespace Picker
 
             return component as T;
         }
-        
-        private bool ReflectIntoFindIt(PrefabInfo info)
+
+        private void ReflectIntoFindIt(PrefabInfo info)
         {
             Type FindItType = Type.GetType("FindIt.FindIt, FindIt");
             object FindItInstance = FindItType.GetField("instance").GetValue(null);
             Type SearchBoxType = Type.GetType("FindIt.GUI.UISearchBox, FindIt");
             object UISearchbox = FindItType.GetField("searchBox").GetValue(FindItInstance);
-            object UIScrollPanel = FindItType.GetField("scrollPanel").GetValue(FindItInstance);
-            Type ScrollPanelType = Type.GetType("FindIt.GUI.UIScrollPanel, FindIt");
-            Debug.Log(ScrollPanelType);
-
-            // Get all the item data...
-            PropertyInfo iData = ScrollPanelType.GetProperty("itemsData");
-            object itemsData = iData.GetValue(UIScrollPanel, null);
-            object[] itemDataBuffer = itemsData.GetType().GetMethod("ToArray").Invoke(itemsData, null) as object[];
-            Debug.Log(itemDataBuffer);
 
             FieldInfo checkBoxType = SearchBoxType.GetField(info.m_isCustomContent ? "workshopFilter" : "vanillaFilter");
             if (checkBoxType != null)
@@ -73,17 +84,41 @@ namespace Picker
                 UICheckBox checkBox = (UICheckBox)checkBoxType.GetValue(UISearchbox);
                 checkBox.isChecked = true;
             }
-            
+
+            StartCoroutine(ReflectIntoFindItProcess(info, false));
+        }
+
+
+        private IEnumerator<object> ReflectIntoFindItProcess(PrefabInfo info, bool tryingPRICO)
+        {
+            yield return new WaitForSeconds(0.05f);
+
+            bool found = false;
+
+            Type FindItType = Type.GetType("FindIt.FindIt, FindIt");
+            object FindItInstance = FindItType.GetField("instance").GetValue(null);
+            object UIScrollPanel = FindItType.GetField("scrollPanel").GetValue(FindItInstance);
+            Type ScrollPanelType = Type.GetType("FindIt.GUI.UIScrollPanel, FindIt");
+            //Debug.Log(ScrollPanelType);
+
+            // Get all the item data...
+            PropertyInfo iData = ScrollPanelType.GetProperty("itemsData");
+            object itemsData = iData.GetValue(UIScrollPanel, null);
+            object[] itemDataBuffer = itemsData.GetType().GetMethod("ToArray").Invoke(itemsData, null) as object[];
+            //Debug.Log(itemDataBuffer);
+
             for (int i = 0; i < itemDataBuffer.Length; i++)
             {
                 object itemData = itemDataBuffer[i];
 
                 // Get the actual asset data of this prefab instance in the Find It scrollable panel
                 Type UIScrollPanelItemData = itemData.GetType();
-                Debug.Log(UIScrollPanelItemData);
+                //Debug.Log(UIScrollPanelItemData);
                 object itemData_currentData_asset = UIScrollPanelItemData.GetField("asset").GetValue(itemData);
                 PrefabInfo itemData_currentData_asset_info = itemData_currentData_asset.GetType().GetProperty("prefab").GetValue(itemData_currentData_asset, null) as PrefabInfo;
                 //string itemDataName = itemData_currentData_asset.GetType().GetField("name").GetValue(itemData_currentData_asset) as string;
+                //if (tryingPRICO)
+                //    Debug.Log($"FOUND:{(itemData_currentData_asset_info == null ? "<null>" : itemData_currentData_asset_info.name)}");
 
                 // Display data at this position. Return.
                 if (itemData_currentData_asset_info != null && itemData_currentData_asset_info.name == info.name)
@@ -92,7 +127,7 @@ namespace Picker
                     ScrollPanelType.GetMethod("DisplayAt").Invoke(UIScrollPanel, new object[] { i });
 
                     string itemDataName = UIScrollPanelItemData.GetField("name").GetValue(itemData) as string;
-                    Debug.Log(itemDataName);
+                    //Debug.Log(itemDataName);
                     UIComponent test = UIScrollPanel as UIComponent;
                     UIButton[] fYou = test.GetComponentsInChildren<UIButton>();
                     foreach (UIButton mhmBaby in fYou)
@@ -100,14 +135,35 @@ namespace Picker
                         if (mhmBaby.name == itemDataName)
                         {
                             mhmBaby.SimulateClick();
-                            return true;
+                            found = true;
                         }
                     }
-                    break;
+                    if (found)
+                    {
+                        break;
+                    }
                 }
             }
 
-            return false;
+            if (!found)
+            {
+                if (info is BuildingInfo && !tryingPRICO)
+                {
+                    // If it's a building and it hasn't been found, try again for Ploppable RICO
+                    UIDropDown FilterDropdown = UIView.Find("UISearchBox").Find<UIDropDown>("UIDropDown");
+                    FilterDropdown.selectedIndex = MenuIndex["RICO"];
+                    //if (!ReflectIntoFindIt(info))
+                    //{
+                    //    // And then if that fails, give up and get a drink
+                    //    Debug.Log("Could not be found in Growable or Rico menus.");
+                    //}
+                    StartCoroutine(ReflectIntoFindItProcess(info, true));
+                }
+                else
+                {
+                    Debug.Log($"Object {info.name} not found");
+                }
+            }
         }
 
         private void ShowInPanelResolveGrowables(PrefabInfo pInfo)
@@ -132,27 +188,30 @@ namespace Picker
                 return;
             }
 
+            UIDropDown FilterDropdown = SearchBoxPanel.Find<UIDropDown>("UIDropDown");
+            if (FilterDropdown == null)
+            {
+                Debug.Log($"Find It filters not found");
+                return;
+            }
+
             if (pInfo is PropInfo propInfo)
             {
-                UIDropDown FilterDropdown = SearchBoxPanel.Find<UIDropDown>("UIDropDown");
                 if (propInfo.m_isDecal)
-                    FilterDropdown.selectedValue = "Decal";
+                    FilterDropdown.selectedIndex = MenuIndex["Decal"];
                 else
-                    FilterDropdown.selectedValue = "Prop";
+                    FilterDropdown.selectedIndex = MenuIndex["Prop"];
 
                 UITextField TextField = SearchBoxPanel.Find<UITextField>("UITextField");
                 TextField.text = "";
 
-                if (!propInfo.m_isDecal)
+                if (findItVersion == 2 && !propInfo.m_isDecal)
                 {
-                    UIComponent UIFilterGrowable = SearchBoxPanel.Find("UIFilterProp");
-                    UIFilterGrowable.GetComponentInChildren<UIButton>().SimulateClick();
+                    UIComponent UIFilterProp = SearchBoxPanel.Find("UIFilterProp");
+                    UIFilterProp.GetComponentInChildren<UIButton>().SimulateClick();
                 }
 
-                if (!ReflectIntoFindIt(propInfo))
-                {
-                    Debug.Log("Could not be found in Prop or Decal menus.");
-                }
+                ReflectIntoFindIt(propInfo);
                 return;
             }
 
@@ -167,8 +226,7 @@ namespace Picker
             {
                 Debug.Log("Info " + info.name + " is a growable (or RICO).");
 
-                UIDropDown FilterDropdown = SearchBoxPanel.Find<UIDropDown>("UIDropDown");
-                FilterDropdown.selectedValue = "Growable";
+                FilterDropdown.selectedIndex = MenuIndex["Growable"];
 
                 UITextField TextField = SearchBoxPanel.Find<UITextField>("UITextField");
                 TextField.text = "";
@@ -177,16 +235,7 @@ namespace Picker
                 UIFilterGrowable.GetComponentInChildren<UIButton>().SimulateClick();
 
                 // Reflect into the scroll panel, starting with the growable panel:
-                if (!ReflectIntoFindIt(info))
-                {
-                    // And then if that fails, RICO:
-                    FilterDropdown.selectedValue = "Rico";
-                    if (!ReflectIntoFindIt(info))
-                    {
-                        // And then if that fails, give up and get a drink
-                        Debug.Log("Could not be found in Growable or Rico menus.");
-                    }
-                }
+                ReflectIntoFindIt(info);
             }
             else
             {
@@ -232,6 +281,52 @@ namespace Picker
                 button.SimulateClick();
                 scrollablePanel.ScrollIntoView(button);
             }
+        }
+
+        private static bool IsRicoEnabled()
+        {
+            foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo())
+            {
+                foreach (Assembly assembly in plugin.GetAssemblies())
+                {
+                    if (assembly.GetName().Name.ToLower() == "ploppablerico")
+                    {
+                        Debug.Log("pRICO found");
+                        return plugin.isEnabled;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static int GetFindItVersion()
+        {
+            Assembly assembly = null;
+            foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo())
+            {
+                foreach (Assembly a in plugin.GetAssemblies())
+                {
+                    if (a.GetName().Name.ToLower() == "findit")
+                    {
+                        Debug.Log("Find It found");
+                        assembly = a;
+                        break;
+                    }
+                }
+            }
+
+            if (assembly == null)
+            {
+                return 0;
+            }
+
+            if (assembly.FullName.StartsWith("FindIt, Version=1.0"))
+            {
+                return 1;
+            }
+
+            return 2;
         }
 
         public PrefabInfo DefaultPrefab(PrefabInfo resolve)
@@ -300,8 +395,8 @@ namespace Picker
             //}
 
             // This code is used when the step over function is not active. It will choose the closest of any given object and set it as the hovered object.
-            if (!hasSteppedOver)
-            {
+            //if (!hasSteppedOver)
+            //{
                 stepOverBuffer.Clear();
 
                 if (output.m_netSegment   != 0) stepOverBuffer.Add(new InstanceID() { NetSegment = output.m_netSegment   });
@@ -313,24 +408,30 @@ namespace Picker
                 stepOverBuffer.Sort((a, b) => Vector3.Distance(a.Position(), mouseCurrentPosition).CompareTo(Vector3.Distance(b.Position(), mouseCurrentPosition)));
                 if (stepOverBuffer.Count > 0) hoveredObject = stepOverBuffer[0];
                 else hoveredObject = InstanceID.Empty;
-            }
-            else
-            {
-                // This function resets the step over function.
-                if (mouseCurrentPosition != stepOverPosition)
-                {
-                    hasSteppedOver = false;
-                }
-            }
+            //}
+            //else
+            //{
+            //    // This function resets the step over function.
+            //    if (mouseCurrentPosition != stepOverPosition)
+            //    {
+            //        hasSteppedOver = false;
+            //    }
+            //}
             
             // A prefab has been selected. Find it in the UI and enable it.
             if(Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
             {
+                if (hoveredObject.Info() == null)
+                {
+                    enabled = false;
+                    ToolsModifierControl.SetTool<DefaultTool>();
+                    return;
+                }
                 ShowInPanelResolveGrowables(DefaultPrefab(hoveredObject.Info()));
             }
 
-            // Escape key hit = disable the tool
-            if (Input.GetKeyDown(KeyCode.Escape))
+            // Escape key or RMB hit = disable the tool
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
             {
                 enabled = false;
                 ToolsModifierControl.SetTool<DefaultTool>();

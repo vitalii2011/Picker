@@ -23,7 +23,7 @@ namespace Picker
 
         protected string m_EditingBindingCategory;
 
-        public static readonly SavedInputKey toggleTool = new SavedInputKey("toggleTool", Picker.settingsFileName, SavedInputKey.Encode(KeyCode.N, false, false, false), true);
+        public static readonly SavedInputKey toggleTool = new SavedInputKey("toggleTool", Picker.settingsFileName, SavedInputKey.Encode(KeyCode.T, false, false, false), true);
 
         protected int count = 0;
 

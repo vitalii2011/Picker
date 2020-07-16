@@ -1,4 +1,5 @@
 ﻿using ColossalFramework;
+using ColossalFramework.Plugins;
 using ColossalFramework.UI;
 using System;
 using System.Reflection;
@@ -41,7 +42,7 @@ namespace Picker
 
             if (savedX.value == -1000)
             {
-                absolutePosition = new Vector2(BulldoserButton.absolutePosition.x - (width * 2) - 10, BulldoserButton.parent.absolutePosition.y);
+                absolutePosition = new Vector2(BulldoserButton.absolutePosition.x - (width * 2) - 6, BulldoserButton.parent.absolutePosition.y);
             }
             else
             {
@@ -51,12 +52,23 @@ namespace Picker
 
         protected override void OnClick(UIMouseEventParameter p)
         {
-            //string msg = $"Assemblies:";
+            //string msg;
+            //msg = $"Assemblies:";
             //foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             //{
-            //    msg += $"\n{assembly.GetName().Name.ToLower()}";
+            //    msg += $"\n{assembly.GetName().Name.ToLower()}\n - {assembly.FullName.Substring(0, 50)}";
             //}
             //Debug.Log(msg);
+
+            //msg = "Plugins:";
+            //foreach (PluginManager.PluginInfo pi in PluginManager.instance.GetPluginsInfo())
+            //{
+            //    msg += $"\n{pi.publishedFileID.AsUInt64} - {pi.name} ({pi.isEnabled})" +
+            //        $"\n - {pi.modPath}";
+            //}
+            //Debug.Log(msg);
+
+            Debug.Log($"Find It: v{PickerTool.findItVersion}");
 
             if (p.buttons.IsFlagSet(UIMouseButton.Left) && PickerTool.instance != null)
             {
@@ -66,7 +78,7 @@ namespace Picker
 
         public void ResetPosition()
         {
-            absolutePosition = new Vector2(BulldoserButton.absolutePosition.x - (width * 2) - 10, BulldoserButton.parent.absolutePosition.y);
+            absolutePosition = new Vector2(BulldoserButton.absolutePosition.x - (width * 2) - 6, BulldoserButton.parent.absolutePosition.y);
         }
 
         private Vector3 m_deltaPos;
