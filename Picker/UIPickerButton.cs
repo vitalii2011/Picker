@@ -68,7 +68,7 @@ namespace Picker
             //}
             //Debug.Log(msg);
 
-            Debug.Log($"Find It: v{PickerTool.findItVersion}");
+            Debug.Log($"Find It: v{Picker.FindItVersion}");
 
             if (p.buttons.IsFlagSet(UIMouseButton.Left) && PickerTool.instance != null)
             {
@@ -123,7 +123,16 @@ namespace Picker
         {
             if (!UIView.HasModalInput() && !UIView.HasInputFocus() && OptionsKeymapping.toggleTool.IsPressed(Event.current))
             {
-                SimulateClick();
+                bool useMoveIt = false;
+                // Check for Move It hovered item
+                if (Picker.MoveItVersion > 0)
+                {
+                    useMoveIt = PickerTool.instance.ReflectIntoMoveIt();
+                }
+                if (!useMoveIt)
+                {
+                    SimulateClick();
+                }
             }
         }
 

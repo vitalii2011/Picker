@@ -24,12 +24,10 @@ namespace Picker
         public InstanceID hoveredObject = InstanceID.Empty;
 
         public bool hasSteppedOver = false;
-        public List<InstanceID> stepOverBuffer = new List<InstanceID>();
+        public List<InstanceID> objectBuffer = new List<InstanceID>();
         public int stepOverCounter = 0;
         public Vector3 stepOverPosition = Vector3.zero;
         public Vector3 mouseCurrentPosition = Vector3.zero;
-
-        internal static int findItVersion = 0;
 
         private static Dictionary<String, int> MenuIndex = new Dictionary<string, int>
         {
@@ -45,14 +43,12 @@ namespace Picker
             m_toolController = FindObjectOfType<ToolController>();
             enabled = false;
 
-            findItVersion = GetFindItVersion();
-
             m_button = UIView.GetAView().AddUIComponent(typeof(UIPickerButton)) as UIPickerButton;
 
             if (IsRicoEnabled())
             { // Will need changed if/when Find It 2 adds more filter types
-                MenuIndex["Prop"] += findItVersion;
-                MenuIndex["Decal"] += findItVersion;
+                MenuIndex["Prop"] += Picker.FindItVersion;
+                MenuIndex["Decal"] += Picker.FindItVersion;
             }
         }
 
@@ -71,6 +67,31 @@ namespace Picker
             return component as T;
         }
 
+        internal bool ReflectIntoMoveIt()
+        {
+            //Debug.Log(Picker.GetAssembly("moveit").FullName);
+            Type tMoveIt = Picker.GetAssembly("moveit").GetType("MoveIt.MoveItTool");
+            //Debug.Log($"AAA1 MoveIt: <{tMoveIt}>");
+            object MoveItInstance = tMoveIt.GetField("instance").GetValue(null);
+            //Debug.Log($"AAA2 MoveIt: {MoveItInstance} <{tMoveIt}>");
+            //bool moveItActive = (bool)tMoveIt.GetProperty("enabled").GetValue(MoveItInstance, null);
+            //Debug.Log($"AAA3 MoveIt Active: {moveItActive}");
+
+            if ((bool)tMoveIt.GetProperty("enabled").GetValue(MoveItInstance, null))
+            {
+                object hovered = tMoveIt.GetField("m_hoverInstance").GetValue(MoveItInstance);
+                //Debug.Log($"AAA4 MoveIt Hovered: {hovered}");
+                if (hovered != null)
+                {
+                    InstanceID id = (InstanceID)hovered.GetType().GetProperty("id").GetValue(hovered, null);
+                    //Debug.Log($"AAA5 MoveIt id: {id}");
+                    ShowInPanelResolveGrowables(DefaultPrefab(id.Info()));
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private void ReflectIntoFindIt(PrefabInfo info)
         {
             Type FindItType = Type.GetType("FindIt.FindIt, FindIt");
@@ -87,7 +108,6 @@ namespace Picker
 
             StartCoroutine(ReflectIntoFindItProcess(info, false));
         }
-
 
         private IEnumerator<object> ReflectIntoFindItProcess(PrefabInfo info, bool tryingPRICO)
         {
@@ -205,7 +225,7 @@ namespace Picker
                 UITextField TextField = SearchBoxPanel.Find<UITextField>("UITextField");
                 TextField.text = "";
 
-                if (findItVersion == 2 && !propInfo.m_isDecal)
+                if (Picker.FindItVersion == 2 && !propInfo.m_isDecal)
                 {
                     UIComponent UIFilterProp = SearchBoxPanel.Find("UIFilterProp");
                     UIFilterProp.GetComponentInChildren<UIButton>().SimulateClick();
@@ -300,35 +320,6 @@ namespace Picker
             return false;
         }
 
-        private static int GetFindItVersion()
-        {
-            Assembly assembly = null;
-            foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo())
-            {
-                foreach (Assembly a in plugin.GetAssemblies())
-                {
-                    if (a.GetName().Name.ToLower() == "findit")
-                    {
-                        Debug.Log("Find It found");
-                        assembly = a;
-                        break;
-                    }
-                }
-            }
-
-            if (assembly == null)
-            {
-                return 0;
-            }
-
-            if (assembly.FullName.StartsWith("FindIt, Version=1.0"))
-            {
-                return 1;
-            }
-
-            return 2;
-        }
-
         public PrefabInfo DefaultPrefab(PrefabInfo resolve)
         {
             if (!(resolve is NetInfo)) return resolve;
@@ -375,51 +366,27 @@ namespace Picker
 
             // Set the world mouse position (useful for my implementation of StepOver)
             mouseCurrentPosition = output.m_hitPos;
-            //Debug.Log($"Pos: {mouseCurrentPosition}");
 
-            // Step Over Block.
-            //if(Input.GetKeyDown(KeyCode.O)) // @TODO allow user to customize this.
-            //{
-            //    Debug.Log("Attempting to step over");
-            //    stepOverCounter++;
+            objectBuffer.Clear();
 
-            //    if(stepOverCounter == 1 && hasSteppedOver == false) // Only will be executed the first time we reach 1.
-            //    {
-            //        // @TODO populate step over buffer
-            //    }
+            if (output.m_netSegment   != 0) objectBuffer.Add(new InstanceID() { NetSegment = output.m_netSegment   });
+            if (output.m_netNode      != 0) objectBuffer.Add(new InstanceID() { NetNode    = output.m_netNode      });
+            if (output.m_treeInstance != 0) objectBuffer.Add(new InstanceID() { Tree       = output.m_treeInstance });
+            if (output.m_propInstance != 0) objectBuffer.Add(new InstanceID() { Prop       = output.m_propInstance });
+            if (output.m_building     != 0) objectBuffer.Add(new InstanceID() { Building   = output.m_building     });
 
-            //    hasSteppedOver = true;
+            objectBuffer.Sort((a, b) => Vector3.Distance(a.Position(), mouseCurrentPosition).CompareTo(Vector3.Distance(b.Position(), mouseCurrentPosition)));
+            if (objectBuffer.Count > 0)
+            {
+                hoveredObject = objectBuffer[0];
+            }
+            else
+            {
+                hoveredObject = InstanceID.Empty;
+            }
 
-            //    if (stepOverCounter >= stepOverBuffer.Count) stepOverCounter = 0;
-            //    hoveredObject = stepOverBuffer[stepOverCounter];
-            //}
-
-            // This code is used when the step over function is not active. It will choose the closest of any given object and set it as the hovered object.
-            //if (!hasSteppedOver)
-            //{
-                stepOverBuffer.Clear();
-
-                if (output.m_netSegment   != 0) stepOverBuffer.Add(new InstanceID() { NetSegment = output.m_netSegment   });
-                if (output.m_netNode      != 0) stepOverBuffer.Add(new InstanceID() { NetNode    = output.m_netNode      });
-                if (output.m_treeInstance != 0) stepOverBuffer.Add(new InstanceID() { Tree       = output.m_treeInstance });
-                if (output.m_propInstance != 0) stepOverBuffer.Add(new InstanceID() { Prop       = output.m_propInstance });
-                if (output.m_building     != 0) stepOverBuffer.Add(new InstanceID() { Building   = output.m_building     });
-
-                stepOverBuffer.Sort((a, b) => Vector3.Distance(a.Position(), mouseCurrentPosition).CompareTo(Vector3.Distance(b.Position(), mouseCurrentPosition)));
-                if (stepOverBuffer.Count > 0) hoveredObject = stepOverBuffer[0];
-                else hoveredObject = InstanceID.Empty;
-            //}
-            //else
-            //{
-            //    // This function resets the step over function.
-            //    if (mouseCurrentPosition != stepOverPosition)
-            //    {
-            //        hasSteppedOver = false;
-            //    }
-            //}
-            
             // A prefab has been selected. Find it in the UI and enable it.
-            if(Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
             {
                 if (hoveredObject.Info() == null)
                 {
