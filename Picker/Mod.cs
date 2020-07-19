@@ -132,7 +132,7 @@ namespace Picker
                 {
                     if (plugin.isEnabled && a.GetName().Name.ToLower() == name)
                     {
-                        Debug.Log($"Assembly {name} found");
+                        //Debug.Log($"Assembly {name} found");
                         assembly = a;
                         break;
                     }

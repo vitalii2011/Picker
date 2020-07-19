@@ -69,22 +69,15 @@ namespace Picker
 
         internal bool ReflectIntoMoveIt()
         {
-            //Debug.Log(Picker.GetAssembly("moveit").FullName);
             Type tMoveIt = Picker.GetAssembly("moveit").GetType("MoveIt.MoveItTool");
-            //Debug.Log($"AAA1 MoveIt: <{tMoveIt}>");
             object MoveItInstance = tMoveIt.GetField("instance").GetValue(null);
-            //Debug.Log($"AAA2 MoveIt: {MoveItInstance} <{tMoveIt}>");
-            //bool moveItActive = (bool)tMoveIt.GetProperty("enabled").GetValue(MoveItInstance, null);
-            //Debug.Log($"AAA3 MoveIt Active: {moveItActive}");
 
             if ((bool)tMoveIt.GetProperty("enabled").GetValue(MoveItInstance, null))
             {
                 object hovered = tMoveIt.GetField("m_hoverInstance").GetValue(MoveItInstance);
-                //Debug.Log($"AAA4 MoveIt Hovered: {hovered}");
                 if (hovered != null)
                 {
                     InstanceID id = (InstanceID)hovered.GetType().GetProperty("id").GetValue(hovered, null);
-                    //Debug.Log($"AAA5 MoveIt id: {id}");
                     ShowInPanelResolveGrowables(DefaultPrefab(id.Info()));
                     return true;
                 }
@@ -119,27 +112,21 @@ namespace Picker
             object FindItInstance = FindItType.GetField("instance").GetValue(null);
             object UIScrollPanel = FindItType.GetField("scrollPanel").GetValue(FindItInstance);
             Type ScrollPanelType = Type.GetType("FindIt.GUI.UIScrollPanel, FindIt");
-            //Debug.Log(ScrollPanelType);
-
+            
             // Get all the item data...
             PropertyInfo iData = ScrollPanelType.GetProperty("itemsData");
             object itemsData = iData.GetValue(UIScrollPanel, null);
             object[] itemDataBuffer = itemsData.GetType().GetMethod("ToArray").Invoke(itemsData, null) as object[];
-            //Debug.Log(itemDataBuffer);
-
+            
             for (int i = 0; i < itemDataBuffer.Length; i++)
             {
                 object itemData = itemDataBuffer[i];
 
                 // Get the actual asset data of this prefab instance in the Find It scrollable panel
                 Type UIScrollPanelItemData = itemData.GetType();
-                //Debug.Log(UIScrollPanelItemData);
                 object itemData_currentData_asset = UIScrollPanelItemData.GetField("asset").GetValue(itemData);
                 PrefabInfo itemData_currentData_asset_info = itemData_currentData_asset.GetType().GetProperty("prefab").GetValue(itemData_currentData_asset, null) as PrefabInfo;
-                //string itemDataName = itemData_currentData_asset.GetType().GetField("name").GetValue(itemData_currentData_asset) as string;
-                //if (tryingPRICO)
-                //    Debug.Log($"FOUND:{(itemData_currentData_asset_info == null ? "<null>" : itemData_currentData_asset_info.name)}");
-
+                
                 // Display data at this position. Return.
                 if (itemData_currentData_asset_info != null && itemData_currentData_asset_info.name == info.name)
                 {
@@ -147,7 +134,6 @@ namespace Picker
                     ScrollPanelType.GetMethod("DisplayAt").Invoke(UIScrollPanel, new object[] { i });
 
                     string itemDataName = UIScrollPanelItemData.GetField("name").GetValue(itemData) as string;
-                    //Debug.Log(itemDataName);
                     UIComponent test = UIScrollPanel as UIComponent;
                     UIButton[] fYou = test.GetComponentsInChildren<UIButton>();
                     foreach (UIButton mhmBaby in fYou)
@@ -172,11 +158,6 @@ namespace Picker
                     // If it's a building and it hasn't been found, try again for Ploppable RICO
                     UIDropDown FilterDropdown = UIView.Find("UISearchBox").Find<UIDropDown>("UIDropDown");
                     FilterDropdown.selectedIndex = MenuIndex["RICO"];
-                    //if (!ReflectIntoFindIt(info))
-                    //{
-                    //    // And then if that fails, give up and get a drink
-                    //    Debug.Log("Could not be found in Growable or Rico menus.");
-                    //}
                     StartCoroutine(ReflectIntoFindItProcess(info, true));
                 }
                 else
@@ -272,6 +253,7 @@ namespace Picker
                 UIView.Find("TSCloseButton").SimulateClick();
                 UITabstrip subMenuTabstrip = null;
                 UIScrollablePanel scrollablePanel = null;
+                UIPanel filterPanel = null;
                 UIComponent current = button, parent = button.parent;
                 int subMenuTabstripIndex = -1, menuTabstripIndex = -1;
                 while (parent != null)
@@ -294,13 +276,36 @@ namespace Picker
                 {
                     return;
                 }
+
+                scrollablePanel.parent.GetComponentInChildren<UIPanel>();
                 menuTabstrip.selectedIndex = menuTabstripIndex;
                 menuTabstrip.ShowTab(menuTabstrip.tabs[menuTabstripIndex].name);
                 subMenuTabstrip.selectedIndex = subMenuTabstripIndex;
                 subMenuTabstrip.ShowTab(subMenuTabstrip.tabs[subMenuTabstripIndex].name);
-                button.SimulateClick();
-                scrollablePanel.ScrollIntoView(button);
+
+                filterPanel = scrollablePanel.parent.Find<UIPanel>("FilterPanel");
+                if (filterPanel != null)
+                {
+                    foreach (UIMultiStateButton c in filterPanel.GetComponentsInChildren<UIMultiStateButton>())
+                    {
+                        if (c.isVisible && c.activeStateIndex == 1)
+                        {
+                            c.activeStateIndex = 0;
+                        }
+                    }
+                }
+
+                StartCoroutine(ShowInPanelProcess(scrollablePanel, button));
             }
+
+        }
+
+        private IEnumerator<object> ShowInPanelProcess(UIScrollablePanel scrollablePanel, UIButton button)
+        {
+            yield return new WaitForSeconds(0.05f);
+
+            button.SimulateClick();
+            scrollablePanel.ScrollIntoView(button);
         }
 
         private static bool IsRicoEnabled()
@@ -333,10 +338,62 @@ namespace Picker
                    (AssetEditorRoadUtils.TryGetSlope(prefab) != null && AssetEditorRoadUtils.TryGetSlope(prefab).name == info.name) ||
                    (AssetEditorRoadUtils.TryGetTunnel(prefab) != null && AssetEditorRoadUtils.TryGetTunnel(prefab).name == info.name))
                 {
+                    if (AssetEditorRoadUtils.TryGetBridge(prefab) != null && AssetEditorRoadUtils.TryGetBridge(prefab).name == info.name)
+                    {
+                        FRTSet("BridgeMode");
+                    }
+                    else if (AssetEditorRoadUtils.TryGetElevated(prefab) != null && AssetEditorRoadUtils.TryGetElevated(prefab).name == info.name)
+                    {
+                        FRTSet("ElevatedMode");
+                    }
+                    else if (AssetEditorRoadUtils.TryGetTunnel(prefab) != null && AssetEditorRoadUtils.TryGetTunnel(prefab).name == info.name)
+                    {
+                        FRTSet("TunnelMode");
+                    }
+                    else
+                    {
+                        FRTSet("NormalMode");
+                    }
+
                     return prefab;
+                }
+                else if (prefab == info)
+                {
+                    FRTSet("NormalMode");
                 }
             }
             return info;
+        }
+
+        private void FRTSet(string buttonName)
+        {
+            UIButton button = FindComponentCached<UIButton>("FRT_" + buttonName);
+            //Debug.Log($"AAA {button.name} vis:{button.isVisible}, en:{button.enabled}");
+            if (button is UIComponent)
+            {
+                SimulateClick(button);
+            }
+        }
+
+        // From MoreShortcuts by Boogieman Sam
+        private static void SimulateClick(UIComponent component)
+        {
+            Camera camera = component.GetCamera();
+            Vector3 vector = camera.WorldToScreenPoint(component.center);
+            Ray ray = camera.ScreenPointToRay(vector);
+            UIMouseEventParameter p = new UIMouseEventParameter(component, UIMouseButton.Left, 1, ray, vector, Vector2.zero, 0f);
+
+            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+            if (component.isEnabled)
+            {
+                component.GetType().GetMethod("OnMouseDown", flags).Invoke(component, new object[] { p });
+                component.GetType().GetMethod("OnClick", flags).Invoke(component, new object[] { p });
+                component.GetType().GetMethod("OnMouseUp", flags).Invoke(component, new object[] { p });
+            }
+            else
+                component.GetType().GetMethod("OnDisabledClick", flags).Invoke(component, new object[] { p });
+
         }
 
         protected override void OnToolUpdate()

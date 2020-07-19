@@ -68,7 +68,7 @@ namespace Picker
             //}
             //Debug.Log(msg);
 
-            Debug.Log($"Find It: v{Picker.FindItVersion}");
+            //Debug.Log($"Find It: v{Picker.FindItVersion}");
 
             if (p.buttons.IsFlagSet(UIMouseButton.Left) && PickerTool.instance != null)
             {
