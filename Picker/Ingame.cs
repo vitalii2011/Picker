@@ -11,12 +11,9 @@ namespace Picker
 {
     public class IngameLoader : LoadingExtensionBase
     {
-        private LoadMode loadMode;
-
         public override void OnLevelLoaded(LoadMode mode)
         {
             base.OnLevelLoaded(mode);
-            loadMode = mode;
             InstallMod();
         }
 
@@ -80,7 +77,7 @@ namespace Picker
             if (InGame())
             {
                 // basic ingame hot reload
-                OnLevelLoaded(loadMode);
+                OnLevelLoaded(LoadMode.NewGame);
             }
         }
 
@@ -93,23 +90,4 @@ namespace Picker
             }
         }
     }
-
-    //public class IngameKeybindingResolver : ThreadingExtensionBase
-    //{
-    //    public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
-    //    {
-
-    //        if (!UIView.HasModalInput() && !UIView.HasInputFocus() && Picker.toggleTool.IsPressed(Event.current))
-    //        {
-    //        //    SimulateClick();
-    //        //}
-
-    //        //if (Input.GetKeyDown(KeyCode.N))
-    //        //{
-    //            Debug.Log("N key");
-    //            PickerTool.instance.enabled = !PickerTool.instance.enabled;
-    //            ToolsModifierControl.SetTool<PickerTool>();
-    //        }
-    //    }
-    //}
 }

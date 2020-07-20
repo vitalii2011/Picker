@@ -352,14 +352,14 @@ namespace Picker
                     }
                     else
                     {
-                        FRTSet("NormalMode");
+                        FRTSet("GroundMode");
                     }
 
                     return prefab;
                 }
                 else if (prefab == info)
                 {
-                    FRTSet("NormalMode");
+                    FRTSet("GroundMode");
                 }
             }
             return info;
