@@ -31,12 +31,57 @@ namespace Picker
 
         private static Dictionary<String, int> MenuIndex = new Dictionary<string, int>
         {
+            ["All"] = 0,
             ["Ploppable"] = 2,
             ["Growable"] = 3,
             ["RICO"] = 4,
             ["Prop"] = 4,
             ["Decal"] = 5
         };
+
+        private UIComponent _findItSearchbox = null;
+        private UIComponent FISearchbox
+        {
+            get
+            {
+                if (_findItSearchbox == null)
+                {
+                    UIComponent searchBoxPanel = UIView.Find("UISearchBox");
+                    if (searchBoxPanel == null)
+                    {
+                        Debug.Log($"Find It not found");
+                        return null;
+                    }
+                    _findItSearchbox = searchBoxPanel;
+                }
+                return _findItSearchbox;
+            }
+        }
+
+        private UIDropDown _filterDropdown = null;
+        private UIDropDown FIFilterDropdown
+        {
+            get
+            {
+                if (_filterDropdown == null)
+                {
+                    UIDropDown filterDropdown = FISearchbox.Find<UIDropDown>("UIDropDown");
+                    if (filterDropdown == null)
+                    {
+                        Debug.Log($"Find It filters not found");
+                        return null;
+                    }
+                    _filterDropdown = filterDropdown;
+                }
+                return _filterDropdown;
+            }
+        }
+ 
+        private void SetFIDropdown(string entry)
+        {
+            //Debug.Log($"Dropdown: {entry}");
+            FIFilterDropdown.selectedIndex = MenuIndex[entry];
+        }
 
         protected override void Awake()
         {
@@ -92,12 +137,20 @@ namespace Picker
             Type SearchBoxType = Type.GetType("FindIt.GUI.UISearchBox, FindIt");
             object UISearchbox = FindItType.GetField("searchBox").GetValue(FindItInstance);
 
+            // Turn on workshop or vanilla filter (Find It 2 only)
             FieldInfo checkBoxType = SearchBoxType.GetField(info.m_isCustomContent ? "workshopFilter" : "vanillaFilter");
             if (checkBoxType != null)
             {
                 UICheckBox checkBox = (UICheckBox)checkBoxType.GetValue(UISearchbox);
                 checkBox.isChecked = true;
             }
+
+            // Open Find It
+            if (FISearchbox == null || FISearchbox.isVisible)
+                return;
+            UIButton FIButton = UIView.Find<UIButton>("FindItMainButton");
+            if (FIButton == null) return;
+            FIButton.SimulateClick();
 
             StartCoroutine(ReflectIntoFindItProcess(info, false));
         }
@@ -130,7 +183,7 @@ namespace Picker
                 // Display data at this position. Return.
                 if (itemData_currentData_asset_info != null && itemData_currentData_asset_info.name == info.name)
                 {
-                    Debug.Log("Found data at position " + i + " in Find it ScrollablePanel");
+                    //Debug.Log("Found data at position " + i + " in Find it ScrollablePanel");
                     ScrollPanelType.GetMethod("DisplayAt").Invoke(UIScrollPanel, new object[] { i });
 
                     string itemDataName = UIScrollPanelItemData.GetField("name").GetValue(itemData) as string;
@@ -156,8 +209,7 @@ namespace Picker
                 if (info is BuildingInfo && !tryingPRICO)
                 {
                     // If it's a building and it hasn't been found, try again for Ploppable RICO
-                    UIDropDown FilterDropdown = UIView.Find("UISearchBox").Find<UIDropDown>("UIDropDown");
-                    FilterDropdown.selectedIndex = MenuIndex["RICO"];
+                    SetFIDropdown("RICO");
                     StartCoroutine(ReflectIntoFindItProcess(info, true));
                 }
                 else
@@ -176,39 +228,28 @@ namespace Picker
             }
 
             // Try to locate in Find It!
-            UIComponent SearchBoxPanel = UIView.Find("UISearchBox");
-            if (SearchBoxPanel != null && SearchBoxPanel.isVisible == false)
+            if (FISearchbox == null)
             {
-                UIButton FIButton = UIView.Find<UIButton>("FindItMainButton");
-                if (FIButton == null) return;
-                FIButton.SimulateClick();
-            }
-            if (SearchBoxPanel == null)
-            {
-                Debug.Log($"Find It not found");
                 return;
             }
-
-            UIDropDown FilterDropdown = SearchBoxPanel.Find<UIDropDown>("UIDropDown");
-            if (FilterDropdown == null)
+            if (FIFilterDropdown == null)
             {
-                Debug.Log($"Find It filters not found");
                 return;
             }
 
             if (pInfo is PropInfo propInfo)
             {
                 if (propInfo.m_isDecal)
-                    FilterDropdown.selectedIndex = MenuIndex["Decal"];
+                    SetFIDropdown("Decal");
                 else
-                    FilterDropdown.selectedIndex = MenuIndex["Prop"];
+                    SetFIDropdown("Prop");
 
-                UITextField TextField = SearchBoxPanel.Find<UITextField>("UITextField");
+                UITextField TextField = FISearchbox.Find<UITextField>("UITextField");
                 TextField.text = "";
 
                 if (Picker.FindItVersion == 2 && !propInfo.m_isDecal)
                 {
-                    UIComponent UIFilterProp = SearchBoxPanel.Find("UIFilterProp");
+                    UIComponent UIFilterProp = FISearchbox.Find("UIFilterProp");
                     UIFilterProp.GetComponentInChildren<UIButton>().SimulateClick();
                 }
 
@@ -225,14 +266,14 @@ namespace Picker
                 (info.m_class.m_service == ItemClass.Service.Tourism)
                 ))
             {
-                Debug.Log("Info " + info.name + " is a growable (or RICO).");
+                //Debug.Log("Info " + info.name + " is a growable (or RICO).");
 
-                FilterDropdown.selectedIndex = MenuIndex["Growable"];
+                SetFIDropdown("Growable");
 
-                UITextField TextField = SearchBoxPanel.Find<UITextField>("UITextField");
+                UITextField TextField = FISearchbox.Find<UITextField>("UITextField");
                 TextField.text = "";
 
-                UIComponent UIFilterGrowable = SearchBoxPanel.Find("UIFilterGrowable");
+                UIComponent UIFilterGrowable = FISearchbox.Find("UIFilterGrowable");
                 UIFilterGrowable.GetComponentInChildren<UIButton>().SimulateClick();
 
                 // Reflect into the scroll panel, starting with the growable panel:
@@ -240,7 +281,7 @@ namespace Picker
             }
             else
             {
-                Debug.Log("Info " + info.name + " is not a growable.");
+                //Debug.Log("Info " + info.name + " is not a growable.");
                 ShowInPanel(pInfo);
             }
         }
@@ -253,8 +294,9 @@ namespace Picker
                 UIView.Find("TSCloseButton").SimulateClick();
                 UITabstrip subMenuTabstrip = null;
                 UIScrollablePanel scrollablePanel = null;
-                UIPanel filterPanel = null;
+                UIPanel filterPanel;
                 UIComponent current = button, parent = button.parent;
+
                 int subMenuTabstripIndex = -1, menuTabstripIndex = -1;
                 while (parent != null)
                 {
@@ -274,6 +316,7 @@ namespace Picker
                 UITabstrip menuTabstrip = current.Find<UITabstrip>("MainToolstrip");
                 if (scrollablePanel == null || subMenuTabstrip == null || menuTabstrip == null || menuTabstripIndex == -1 || subMenuTabstripIndex == -1)
                 {
+                    Debug.Log($"UI Panel not found");
                     return;
                 }
 
@@ -297,7 +340,12 @@ namespace Picker
 
                 StartCoroutine(ShowInPanelProcess(scrollablePanel, button));
             }
-
+            else
+            {
+                Debug.Log($"Button not found, falling back to FindIt/All");
+                SetFIDropdown("All");
+                ReflectIntoFindIt(info);
+            }
         }
 
         private IEnumerator<object> ShowInPanelProcess(UIScrollablePanel scrollablePanel, UIButton button)
@@ -470,7 +518,7 @@ namespace Picker
             if (hoveredObject.NetSegment != 0)
             {
                 NetSegment hoveredSegment = hoveredObject.NetSegment.S();
-                NetTool.RenderOverlay(cameraInfo, ref hoveredSegment, hoverColor, new Color(1f, 0f, 0f, 1f));
+                NetTool.RenderOverlay(cameraInfo, ref hoveredSegment, hoverColor, hoverColor);
             }
             else if (hoveredObject.NetNode != 0 && hoveredObject.NetNode < 32768)
             {
