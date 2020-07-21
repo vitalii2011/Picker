@@ -51,6 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integration\FindIt.cs" />
+    <Compile Include="Integration\MoveIt.cs" />
+    <Compile Include="Integration\NetworkSkins2.cs" />
     <Compile Include="OptionsKeymapping.cs" />
     <Compile Include="UIPickerButton.cs" />
     <Compile Include="ResourceLoader.cs" />

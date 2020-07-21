@@ -37,12 +37,6 @@ namespace Picker
             }
         }
 
-        //public override void OnReleased()
-        //{
-        //    base.OnReleased();
-        //    GameObject.Destroy(PickerTool.instance);
-        //}
-
         public static void UninstallMod()
         {
             if (ToolsModifierControl.toolController.CurrentTool is PickerTool)

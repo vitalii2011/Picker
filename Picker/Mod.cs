@@ -120,6 +120,19 @@ namespace Picker
                     break;
             }
 
+            UILabel ns2Label = panel.AddUIComponent<UILabel>();
+            ns2Label.name = "ns2Label";
+            ns2Label.text = $"Network Skins 2: ";
+            switch (PickerTool.isNS2Installed())
+            {
+                case false:
+                    ns2Label.text += "Not found";
+                    break;
+                case true:
+                    ns2Label.text += "Found";
+                    break;
+            }
+
             group.AddSpace(20);
         }
 
