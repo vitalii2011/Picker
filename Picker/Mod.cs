@@ -10,7 +10,7 @@ namespace Picker
 {
     public class Picker : IUserMod
     {
-        public string Name => "Picker";
+        public string Name => "Picker 1.1";
         public string Description => "Eyedrop any object from the map, by Elektrix and Quboid";
         public const string settingsFileName = "Picker";
 

@@ -126,7 +126,7 @@ namespace Picker
 
         private void ShowInPanelResolveGrowables(PrefabInfo pInfo)
         {
-            Debug.Log($"Hovered: {pInfo.name} ({hoveredId.Type})\nB:{hoveredId.Building}, P/D:{hoveredId.Prop}, PO:{hoveredId.NetLane}, N:{hoveredId.NetNode}, S:{hoveredId.NetSegment}");
+            //Debug.Log($"Hovered: {pInfo.name} ({hoveredId.Type})\nB:{hoveredId.Building}, P/D:{hoveredId.Prop}, PO:{hoveredId.NetLane}, N:{hoveredId.NetNode}, S:{hoveredId.NetSegment}");
             if (!(pInfo is BuildingInfo || pInfo is PropInfo))
             {
                 ShowInPanel(pInfo);
