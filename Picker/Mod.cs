@@ -10,7 +10,7 @@ namespace Picker
 {
     public class Picker : IUserMod
     {
-        public string Name => "Picker 1.1";
+        public string Name => "Picker 1.2";
         public string Description => "Eyedrop any object from the map, by Elektrix and Quboid";
         public const string settingsFileName = "Picker";
 
@@ -69,6 +69,14 @@ namespace Picker
             //        break;
             //    }
             //}
+
+            UICheckBox checkBox = (UICheckBox)group.AddCheckbox("Set ground/elevated/etc mode in Fine Road Tools", PickerTool.doSetFRTMode.value, (b) =>
+            {
+                PickerTool.doSetFRTMode.value = b;
+            });
+            checkBox.tooltip = "If FRT is enabled, should Picker set ground/elevated/etc to match picked segment?\nHold Shift while clicking to invert this behaviour.";
+
+            group.AddSpace(10);
 
             ((UIPanel)((UIHelper)group).self).gameObject.AddComponent<OptionsKeymappingMain>();
             UIPanel panel = ((UIHelper)group).self as UIPanel;

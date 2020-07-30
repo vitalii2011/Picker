@@ -1,4 +1,5 @@
-﻿using ColossalFramework.Globalization;
+﻿using ColossalFramework;
+using ColossalFramework.Globalization;
 using ColossalFramework.Plugins;
 using ColossalFramework.UI;
 using System;
@@ -13,6 +14,8 @@ namespace Picker
         public static PickerTool instance;
 
         internal UIPickerButton m_button;
+
+        public static SavedBool doSetFRTMode = new SavedBool("doSetFRT", Picker.settingsFileName, true, true);
 
         // Allow....?
         public bool allowSegments = true;
@@ -283,7 +286,7 @@ namespace Picker
                 {
                     if (assembly.GetName().Name.ToLower() == "ploppablerico")
                     {
-                        Debug.Log("pRICO found");
+                        Debug.Log("Ploppable RICO found");
                         return plugin.isEnabled;
                     }
                 }
@@ -334,6 +337,9 @@ namespace Picker
 
         private void FRTSet(string buttonName)
         {
+            if (doSetFRTMode == Event.current.shift)
+                return;
+
             UIButton button = FindComponentCached<UIButton>("FRT_" + buttonName);
             //Debug.Log($"AAA {button.name} vis:{button.isVisible}, en:{button.enabled}");
             if (button is UIComponent)
