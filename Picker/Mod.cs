@@ -10,7 +10,7 @@ namespace Picker
 {
     public class Picker : IUserMod
     {
-        public string Name => "Picker 1.2";
+        public string Name => "Picker 1.3";
         public string Description => "Eyedrop any object from the map, by Elektrix and Quboid";
         public const string settingsFileName = "Picker";
 
@@ -190,21 +190,29 @@ namespace Picker
             return 1;
         }
 
-        internal static bool IsRicoEnabled()
+        private static int _isRicoEnabled = -1;
+        internal static bool IsRicoEnabled
         {
-            foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo())
+            get
             {
-                foreach (Assembly assembly in plugin.GetAssemblies())
+                if (_isRicoEnabled == -1)
                 {
-                    if (assembly.GetName().Name.ToLower() == "ploppablerico")
+                    foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo())
                     {
-                        Debug.Log("Ploppable RICO found");
-                        return plugin.isEnabled;
+                        foreach (Assembly assembly in plugin.GetAssemblies())
+                        {
+                            if (assembly.GetName().Name.ToLower() == "ploppablerico")
+                            {
+                                Debug.Log("Ploppable RICO found");
+                                _isRicoEnabled = plugin.isEnabled ? 1 : 0;
+                                return _isRicoEnabled == 1;
+                            }
+                        }
                     }
                 }
-            }
 
-            return false;
+                return _isRicoEnabled == 1 ? true : false;
+            }
         }
 
         public void OnEnabled()

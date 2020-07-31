@@ -114,7 +114,7 @@ namespace Picker
 
         private void ShowInPanelResolveGrowables(PrefabInfo pInfo)
         {
-            //Debug.Log($"Hovered: {pInfo.name} ({hoveredId.Type})\nB:{hoveredId.Building}, P/D:{hoveredId.Prop}, PO:{hoveredId.NetLane}, N:{hoveredId.NetNode}, S:{hoveredId.NetSegment}");
+            Debug.Log($"Hovered: {pInfo.name} ({hoveredId.Type})\nB:{hoveredId.Building}, P/D:{hoveredId.Prop}, PO:{hoveredId.NetLane}, N:{hoveredId.NetNode}, S:{hoveredId.NetSegment}");
             if (!(pInfo is BuildingInfo || pInfo is PropInfo))
             {
                 ShowInPanel(pInfo);
@@ -133,21 +133,21 @@ namespace Picker
 
             if (pInfo is PropInfo propInfo)
             {
-                if (propInfo.m_isDecal)
-                    FindIt.SetDropdown("Decal");
-                else
-                    FindIt.SetDropdown("Prop");
+                //if (propInfo.m_isDecal)
+                //    FindIt.SetDropdown("Decal");
+                //else
+                //    FindIt.SetDropdown("Prop");
 
-                UITextField TextField = FindIt.Searchbox.Find<UITextField>("UITextField");
-                TextField.text = "";
+                //UITextField TextField = FindIt.Searchbox.Find<UITextField>("UITextField");
+                //TextField.text = "";
 
-                if (Picker.FindItVersion == 2 && !propInfo.m_isDecal)
-                {
-                    UIComponent UIFilterProp = FindIt.Searchbox.Find("UIFilterProp");
-                    UIFilterProp.GetComponentInChildren<UIButton>().SimulateClick();
-                }
+                //if (Picker.FindItVersion == 2 && !propInfo.m_isDecal)
+                //{
+                //    UIComponent UIFilterProp = FindIt.Searchbox.Find("UIFilterProp");
+                //    UIFilterProp.GetComponentInChildren<UIButton>().SimulateClick();
+                //}
 
-                FindIt.Find(propInfo);
+                FindIt.Find((propInfo.m_isDecal ? "Decal" : "Prop"), propInfo);
                 return;
             }
 
@@ -162,13 +162,8 @@ namespace Picker
             {
                 //Debug.Log("Info " + info.name + " is a growable (or RICO).");
 
-                FindIt.SetDropdown("Growable");
-
-                UITextField TextField = FindIt.Searchbox.Find<UITextField>("UITextField");
-                TextField.text = "";
-
                 // Reflect into the scroll panel, starting with the growable panel:
-                FindIt.Find(info);
+                FindIt.Find("Growable", info);
             }
             else
             {
@@ -247,8 +242,7 @@ namespace Picker
             else
             {
                 Debug.Log($"Button not found, falling back to FindIt/All");
-                FindIt.SetDropdown("All");
-                FindIt.Find(info);
+                FindIt.Find("All", info);
             }
         }
 

@@ -8,10 +8,8 @@ namespace Picker
 {
     public class FindItManager : MonoBehaviour
     {
-        Type FindItType, ScrollPanelType;
-        object FindItInstance, ScrollPanel;
-
-        private bool useRICO;
+        //Type FindItType, ScrollPanelType;
+        //object FindItInstance, ScrollPanel;
 
         // Presently dependant on FindIt version
         public static Dictionary<String, int> MenuIndex = new Dictionary<string, int>
@@ -63,34 +61,47 @@ namespace Picker
 
         public void Awake()
         {
-            FindItType = Type.GetType("FindIt.FindIt, FindIt");
-            FindItInstance = FindItType.GetField("instance").GetValue(null);
-            //SearchBoxType = Type.GetType("FindIt.GUI.UISearchBox, FindIt");
-            //UISearchbox = FindItType.GetField("searchBox").GetValue(FindItInstance);
 
-            useRICO = Picker.IsRicoEnabled();
-
-            if (useRICO)
+            if (Picker.IsRicoEnabled)
             { // Will need changed if/when Find It 2 adds more filter types
                 MenuIndex["Prop"] += Picker.FindItVersion;
                 MenuIndex["Decal"] += Picker.FindItVersion;
             }
         }
 
-        internal void SetDropdown(string entry)
+        internal void Find(string filterEntry, PrefabInfo info)
         {
-            //Debug.Log($"Dropdown: {entry}");
-            FilterDropdown.selectedIndex = MenuIndex[entry];
+            //Debug.Log($"\nFIND filterEntry:{filterEntry}, info:{info.name}");
+            if (Searchbox == null)
+                return;
 
-            StartCoroutine(ClearFilters(entry));
+            // Open Find It
+            if (!Searchbox.isVisible)
+            {
+                UIButton FIButton = UIView.Find<UIButton>("FindItMainButton");
+                if (FIButton == null) return;
+                FIButton.SimulateClick();
+            }
+
+            // Clear the text box
+            UITextField TextField = Searchbox.Find<UITextField>("UITextField");
+            TextField.text = "";
+
+            StartCoroutine(ClearFilters(filterEntry, info, false, 0));
         }
 
-        private IEnumerator<object> ClearFilters(string entry)
+        private IEnumerator<object> ClearFilters(string filterEntry, PrefabInfo info, bool tryingPRICO, int step)
         {
+            //Debug.Log($"\nFILTER {step}: {info.name} <{filterEntry}> {tryingPRICO}");
+
+            FilterDropdown.selectedIndex = MenuIndex[filterEntry];
+
             yield return new WaitForSeconds(0.05f);
+
+            // Reset the filters
             if (Picker.FindItVersion == 1)
             {
-                if (entry == "Growable")
+                if (filterEntry == "Growable")
                 {
                     UIComponent UIFilterGrowable = Searchbox.Find("UIFilterGrowable");
                     UIFilterGrowable.GetComponentInChildren<UIButton>().SimulateClick();
@@ -105,61 +116,46 @@ namespace Picker
             {
                 throw new Exception($"Find It called but not available (version:{Picker.FindItVersion})!");
             }
+
+            StartCoroutine(FindProcess(filterEntry, info, false, step));
         }
 
-        internal void Find(PrefabInfo info)
+        private IEnumerator<object> FindProcess(string filterEntry, PrefabInfo info, bool tryingPRICO, int step)
         {
-            // Turn on workshop or vanilla filter (Find It 2 only)
-            //FieldInfo checkBoxType = SearchBoxType.GetField(info.m_isCustomContent ? "workshopFilter" : "vanillaFilter");
-            //if (checkBoxType != null)
-            //{
-            //    UICheckBox checkBox = (UICheckBox)checkBoxType.GetValue(UISearchbox);
-            //    checkBox.isChecked = true;
-            //}
+            //Debug.Log($"\nPROCESS {step}: {info.name} <{filterEntry}> {tryingPRICO}");
 
-            if (Searchbox == null)
-                return;
-
-            // Open Find It
-            if (!Searchbox.isVisible)
-            {
-                UIButton FIButton = UIView.Find<UIButton>("FindItMainButton");
-                if (FIButton == null) return;
-                FIButton.SimulateClick();
-            }
-
-            StartCoroutine(FindProcess(info, false));
-        }
-
-        private IEnumerator<object> FindProcess(PrefabInfo info, bool tryingPRICO)
-        {
             yield return new WaitForSeconds(0.05f);
 
             bool found = false;
-            ScrollPanelType = Type.GetType("FindIt.GUI.UIScrollPanel, FindIt");
-            ScrollPanel = FindItType.GetField("scrollPanel").GetValue(FindItInstance);
+
+            Type FindItType = Type.GetType("FindIt.FindIt, FindIt");
+            Type ScrollPanelType = Type.GetType("FindIt.GUI.UIScrollPanel, FindIt");
+            object FindItInstance = FindItType.GetField("instance").GetValue(null);
+            object ScrollPanel = FindItType.GetField("scrollPanel").GetValue(FindItInstance);
 
             // Get all the item data...
             PropertyInfo iData = ScrollPanelType.GetProperty("itemsData");
             object itemsData = iData.GetValue(ScrollPanel, null);
             object[] itemDataBuffer = itemsData.GetType().GetMethod("ToArray").Invoke(itemsData, null) as object[];
 
+            //Debug.Log($"Buffer Length: {itemDataBuffer.Length}");
+
             for (int i = 0; i < itemDataBuffer.Length; i++)
             {
                 object itemData = itemDataBuffer[i];
 
                 // Get the actual asset data of this prefab instance in the Find It scrollable panel
-                Type UIScrollPanelItemData = itemData.GetType();
-                object itemData_currentData_asset = UIScrollPanelItemData.GetField("asset").GetValue(itemData);
+                Type ItemDataType = itemData.GetType();
+                object itemData_currentData_asset = ItemDataType.GetField("asset").GetValue(itemData);
                 PrefabInfo itemData_currentData_asset_info = itemData_currentData_asset.GetType().GetProperty("prefab").GetValue(itemData_currentData_asset, null) as PrefabInfo;
 
                 // Display data at this position. Return.
                 if (itemData_currentData_asset_info != null && itemData_currentData_asset_info.name == info.name)
                 {
-                    //Debug.Log("Found data at position " + i + " in Find it ScrollablePanel");
+                    Debug.Log("Found data at position " + i + " in Find it ScrollablePanel");
                     ScrollPanelType.GetMethod("DisplayAt").Invoke(ScrollPanel, new object[] { i });
 
-                    string itemDataName = UIScrollPanelItemData.GetField("name").GetValue(itemData) as string;
+                    string itemDataName = ItemDataType.GetField("name").GetValue(itemData) as string;
                     UIComponent test = ScrollPanel as UIComponent;
                     UIButton[] fYou = test.GetComponentsInChildren<UIButton>();
                     foreach (UIButton mhmBaby in fYou)
@@ -179,15 +175,20 @@ namespace Picker
 
             if (!found)
             {
-                if (info is BuildingInfo && !tryingPRICO)
+                if (step > 5)
+                {
+                    Debug.Log($"Object {info.name} not found [P01]");
+                    yield break;
+                }
+                if (Picker.IsRicoEnabled && info is BuildingInfo)
                 {
                     // If it's a building and it hasn't been found, try again for Ploppable RICO
-                    SetDropdown("RICO");
-                    StartCoroutine(FindProcess(info, true));
+                    StartCoroutine(ClearFilters(tryingPRICO ? "Growable" : "RICO", info, !tryingPRICO, ++step));
                 }
                 else
                 {
-                    Debug.Log($"Object {info.name} not found");
+                    StartCoroutine(FindProcess(filterEntry, info, false, ++step));
+                    //Debug.Log($"Object {info.name} not found [P02]");
                 }
             }
         }
