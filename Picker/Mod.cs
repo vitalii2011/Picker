@@ -189,5 +189,38 @@ namespace Picker
             }
             return 1;
         }
+
+        internal static bool IsRicoEnabled()
+        {
+            foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo())
+            {
+                foreach (Assembly assembly in plugin.GetAssemblies())
+                {
+                    if (assembly.GetName().Name.ToLower() == "ploppablerico")
+                    {
+                        Debug.Log("Ploppable RICO found");
+                        return plugin.isEnabled;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public void OnEnabled()
+        {
+            if (LoadingManager.exists && LoadingManager.instance.m_loadingComplete)
+            {
+                IngameLoader.InstallMod();
+            }
+        }
+
+        public void OnDisabled()
+        {
+            if (LoadingManager.exists && LoadingManager.instance.m_loadingComplete)
+            {
+                IngameLoader.UninstallMod();
+            }
+        }
     }
 }

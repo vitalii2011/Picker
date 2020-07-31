@@ -1,29 +1,30 @@
-﻿using ColossalFramework.UI;
-using ICities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ICities;
+using ColossalFramework.Plugins;
+using System.Reflection;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Picker
 {
     public class IngameLoader : LoadingExtensionBase
     {
+        private static GameObject GO_FindIt;
+
         public override void OnLevelLoaded(LoadMode mode)
         {
-            base.OnLevelLoaded(mode);
+            if (!(mode == LoadMode.LoadGame || mode == LoadMode.NewGame || mode == LoadMode.NewGameFromScenario))
+            {
+                return;
+            }
+
             InstallMod();
         }
 
         public override void OnLevelUnloading()
         {
-            base.OnLevelUnloading();
             UninstallMod();
         }
 
-        public void InstallMod()
+        public static void InstallMod()
         {
             if (PickerTool.instance == null)
             {
@@ -35,6 +36,9 @@ namespace Picker
             {
                 Debug.Log($"Picker: InstallMod with existing instance!");
             }
+
+            GO_FindIt = new GameObject();
+            PickerTool.FindIt = GO_FindIt.AddComponent<FindItManager>();
         }
 
         public static void UninstallMod()
@@ -42,46 +46,17 @@ namespace Picker
             if (ToolsModifierControl.toolController.CurrentTool is PickerTool)
                 ToolsModifierControl.SetTool<DefaultTool>();
 
-            GameObject.Destroy(PickerTool.instance);
-
             if (PickerTool.instance != null)
             {
                 PickerTool.instance.enabled = false;
             }
-        }
 
-        public override void OnCreated(ILoading loading)
-        {
-            base.OnCreated(loading);
-            if (LoadingManager.instance.m_loadingComplete)
-            {
-                if (PickerTool.instance == null)
-                {
-                    ToolController toolController = ToolsModifierControl.toolController;
-                    PickerTool.instance = toolController.gameObject.AddComponent<PickerTool>();
-                    PickerTool.instance.enabled = false;
-                }
-            }
-        }
-
-        internal static bool InGame() => SceneManager.GetActiveScene().name == "Game";
-
-        public void OnEnabled()
-        {
-            if (InGame())
-            {
-                // basic ingame hot reload
-                OnLevelLoaded(LoadMode.NewGame);
-            }
-        }
-
-        public void OnDisabled()
-        {
-            if (InGame())
-            {
-                // basic in game hot unload
-                UninstallMod();
-            }
+            Object.Destroy(GO_FindIt);
+            PickerTool.FindIt = null;
+            Object.Destroy(PickerTool.instance.m_button);
+            PickerTool.instance.m_button = null;
+            Object.Destroy(PickerTool.instance);
+            PickerTool.instance = null;
         }
     }
 }

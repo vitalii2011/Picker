@@ -6,24 +6,29 @@ using UnityEngine;
 
 namespace Picker
 {
-    public partial class PickerTool
+    public class FindItManager : MonoBehaviour
     {
+        Type FindItType, ScrollPanelType;
+        object FindItInstance, ScrollPanel;
+
+        private bool useRICO;
+
+        // Presently dependant on FindIt version
         public static Dictionary<String, int> MenuIndex = new Dictionary<string, int>
         {
             ["All"] = 0,
-            ["Ploppable"] = 2,
             ["Growable"] = 3,
             ["RICO"] = 4,
             ["Prop"] = 4,
             ["Decal"] = 5
         };
 
-        private UIComponent _findItSearchbox = null;
-        private UIComponent FISearchbox
+        private UIComponent _Searchbox = null;
+        internal UIComponent Searchbox
         {
             get
             {
-                if (_findItSearchbox == null)
+                if (_Searchbox == null)
                 {
                     UIComponent searchBoxPanel = UIView.Find("UISearchBox");
                     if (searchBoxPanel == null)
@@ -31,20 +36,20 @@ namespace Picker
                         Debug.Log($"Find It not found");
                         return null;
                     }
-                    _findItSearchbox = searchBoxPanel;
+                    _Searchbox = searchBoxPanel;
                 }
-                return _findItSearchbox;
+                return _Searchbox;
             }
         }
 
         private UIDropDown _filterDropdown = null;
-        private UIDropDown FIFilterDropdown
+        internal UIDropDown FilterDropdown
         {
             get
             {
                 if (_filterDropdown == null)
                 {
-                    UIDropDown filterDropdown = FISearchbox.Find<UIDropDown>("UIDropDown");
+                    UIDropDown filterDropdown = Searchbox.Find<UIDropDown>("UIDropDown");
                     if (filterDropdown == null)
                     {
                         Debug.Log($"Find It filters not found");
@@ -56,55 +61,87 @@ namespace Picker
             }
         }
 
-        private void SetFIDropdown(string entry)
+        public void Awake()
         {
-            //Debug.Log($"Dropdown: {entry}");
-            FIFilterDropdown.selectedIndex = MenuIndex[entry];
+            FindItType = Type.GetType("FindIt.FindIt, FindIt");
+            FindItInstance = FindItType.GetField("instance").GetValue(null);
+            //SearchBoxType = Type.GetType("FindIt.GUI.UISearchBox, FindIt");
+            //UISearchbox = FindItType.GetField("searchBox").GetValue(FindItInstance);
+
+            useRICO = Picker.IsRicoEnabled();
+
+            if (useRICO)
+            { // Will need changed if/when Find It 2 adds more filter types
+                MenuIndex["Prop"] += Picker.FindItVersion;
+                MenuIndex["Decal"] += Picker.FindItVersion;
+            }
         }
 
-        private void ReflectIntoFindIt(PrefabInfo info)
+        internal void SetDropdown(string entry)
         {
-            Type FindItType = Type.GetType("FindIt.FindIt, FindIt");
-            object FindItInstance = FindItType.GetField("instance").GetValue(null);
-            Type SearchBoxType = Type.GetType("FindIt.GUI.UISearchBox, FindIt");
-            object UISearchbox = FindItType.GetField("searchBox").GetValue(FindItInstance);
+            //Debug.Log($"Dropdown: {entry}");
+            FilterDropdown.selectedIndex = MenuIndex[entry];
 
-            // Turn on workshop or vanilla filter (Find It 2 only)
-            FieldInfo checkBoxType = SearchBoxType.GetField(info.m_isCustomContent ? "workshopFilter" : "vanillaFilter");
-            if (checkBoxType != null)
+            StartCoroutine(ClearFilters(entry));
+        }
+
+        private IEnumerator<object> ClearFilters(string entry)
+        {
+            yield return new WaitForSeconds(0.05f);
+            if (Picker.FindItVersion == 1)
             {
-                UICheckBox checkBox = (UICheckBox)checkBoxType.GetValue(UISearchbox);
-                checkBox.isChecked = true;
+                if (entry == "Growable")
+                {
+                    UIComponent UIFilterGrowable = Searchbox.Find("UIFilterGrowable");
+                    UIFilterGrowable.GetComponentInChildren<UIButton>().SimulateClick();
+                }
             }
+            else if (Picker.FindItVersion == 2)
+            {
+                MethodInfo resetFilters = Searchbox.GetType().GetMethod("ResetFilters");
+                resetFilters.Invoke(Searchbox, null);
+            }
+            else
+            {
+                throw new Exception($"Find It called but not available (version:{Picker.FindItVersion})!");
+            }
+        }
 
-            if (FISearchbox == null)
+        internal void Find(PrefabInfo info)
+        {
+            // Turn on workshop or vanilla filter (Find It 2 only)
+            //FieldInfo checkBoxType = SearchBoxType.GetField(info.m_isCustomContent ? "workshopFilter" : "vanillaFilter");
+            //if (checkBoxType != null)
+            //{
+            //    UICheckBox checkBox = (UICheckBox)checkBoxType.GetValue(UISearchbox);
+            //    checkBox.isChecked = true;
+            //}
+
+            if (Searchbox == null)
                 return;
 
             // Open Find It
-            if (!FISearchbox.isVisible)
+            if (!Searchbox.isVisible)
             {
                 UIButton FIButton = UIView.Find<UIButton>("FindItMainButton");
                 if (FIButton == null) return;
                 FIButton.SimulateClick();
             }
 
-            StartCoroutine(ReflectIntoFindItProcess(info, false));
+            StartCoroutine(FindProcess(info, false));
         }
 
-        private IEnumerator<object> ReflectIntoFindItProcess(PrefabInfo info, bool tryingPRICO)
+        private IEnumerator<object> FindProcess(PrefabInfo info, bool tryingPRICO)
         {
-            yield return new WaitForSeconds(0.10f);
+            yield return new WaitForSeconds(0.05f);
 
             bool found = false;
-
-            Type FindItType = Type.GetType("FindIt.FindIt, FindIt");
-            object FindItInstance = FindItType.GetField("instance").GetValue(null);
-            object UIScrollPanel = FindItType.GetField("scrollPanel").GetValue(FindItInstance);
-            Type ScrollPanelType = Type.GetType("FindIt.GUI.UIScrollPanel, FindIt");
+            ScrollPanelType = Type.GetType("FindIt.GUI.UIScrollPanel, FindIt");
+            ScrollPanel = FindItType.GetField("scrollPanel").GetValue(FindItInstance);
 
             // Get all the item data...
             PropertyInfo iData = ScrollPanelType.GetProperty("itemsData");
-            object itemsData = iData.GetValue(UIScrollPanel, null);
+            object itemsData = iData.GetValue(ScrollPanel, null);
             object[] itemDataBuffer = itemsData.GetType().GetMethod("ToArray").Invoke(itemsData, null) as object[];
 
             for (int i = 0; i < itemDataBuffer.Length; i++)
@@ -120,10 +157,10 @@ namespace Picker
                 if (itemData_currentData_asset_info != null && itemData_currentData_asset_info.name == info.name)
                 {
                     //Debug.Log("Found data at position " + i + " in Find it ScrollablePanel");
-                    ScrollPanelType.GetMethod("DisplayAt").Invoke(UIScrollPanel, new object[] { i });
+                    ScrollPanelType.GetMethod("DisplayAt").Invoke(ScrollPanel, new object[] { i });
 
                     string itemDataName = UIScrollPanelItemData.GetField("name").GetValue(itemData) as string;
-                    UIComponent test = UIScrollPanel as UIComponent;
+                    UIComponent test = ScrollPanel as UIComponent;
                     UIButton[] fYou = test.GetComponentsInChildren<UIButton>();
                     foreach (UIButton mhmBaby in fYou)
                     {
@@ -145,8 +182,8 @@ namespace Picker
                 if (info is BuildingInfo && !tryingPRICO)
                 {
                     // If it's a building and it hasn't been found, try again for Ploppable RICO
-                    SetFIDropdown("RICO");
-                    StartCoroutine(ReflectIntoFindItProcess(info, true));
+                    SetDropdown("RICO");
+                    StartCoroutine(FindProcess(info, true));
                 }
                 else
                 {

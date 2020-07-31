@@ -1,6 +1,4 @@
 ﻿using ColossalFramework;
-using ColossalFramework.Globalization;
-using ColossalFramework.Plugins;
 using ColossalFramework.UI;
 using System;
 using System.Collections.Generic;
@@ -17,13 +15,6 @@ namespace Picker
 
         public static SavedBool doSetFRTMode = new SavedBool("doSetFRT", Picker.settingsFileName, true, true);
 
-        // Allow....?
-        public bool allowSegments = true;
-        public bool allowNodes = true;
-        public bool allowProps = true;
-        public bool allowTrees = true;
-        public bool allowBuildings = true;
-
         public InstanceID hoveredId = InstanceID.Empty;
 
         public bool hasSteppedOver = false;
@@ -32,18 +23,14 @@ namespace Picker
         public Vector3 stepOverPosition = Vector3.zero;
         public Vector3 mouseCurrentPosition = Vector3.zero;
 
+        public static FindItManager FindIt = null;
+
         protected override void Awake()
         {
             m_toolController = FindObjectOfType<ToolController>();
             enabled = false;
 
             m_button = UIView.GetAView().AddUIComponent(typeof(UIPickerButton)) as UIPickerButton;
-
-            if (IsRicoEnabled())
-            { // Will need changed if/when Find It 2 adds more filter types
-                MenuIndex["Prop"] += Picker.FindItVersion;
-                MenuIndex["Decal"] += Picker.FindItVersion;
-            }
         }
 
         private Dictionary<string, UIComponent> _componentCache = new Dictionary<string, UIComponent>();
@@ -65,16 +52,15 @@ namespace Picker
         {
             base.OnToolUpdate();
 
-            // Raycast to all currently "allowed"
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastInput input = new RaycastInput(ray, Camera.main.farClipPlane)
             {
                 m_ignoreTerrain = false,
-                m_ignoreSegmentFlags = allowSegments ? NetSegment.Flags.Untouchable : NetSegment.Flags.All,
-                m_ignoreNodeFlags = NetNode.Flags.All, //allowNodes ? NetNode.Flags.Untouchable : NetNode.Flags.All,
-                m_ignorePropFlags = allowProps ? PropInstance.Flags.None : PropInstance.Flags.All,
-                m_ignoreTreeFlags = allowTrees ? TreeInstance.Flags.None : TreeInstance.Flags.All,
-                m_ignoreBuildingFlags = allowBuildings ? Building.Flags.None : Building.Flags.All,
+                m_ignoreSegmentFlags = NetSegment.Flags.Untouchable,
+                m_ignoreNodeFlags = NetNode.Flags.All,
+                m_ignorePropFlags = PropInstance.Flags.None,
+                m_ignoreTreeFlags = TreeInstance.Flags.None,
+                m_ignoreBuildingFlags = Building.Flags.None,
 
                 m_ignoreCitizenFlags = CitizenInstance.Flags.All,
                 m_ignoreVehicleFlags = Vehicle.Flags.Created,
@@ -92,7 +78,6 @@ namespace Picker
             objectBuffer.Clear();
 
             if (output.m_netSegment != 0) objectBuffer.Add(new InstanceID() { NetSegment = output.m_netSegment });
-            //if (output.m_netNode != 0) objectBuffer.Add(new InstanceID() { NetNode = output.m_netNode });
             if (output.m_treeInstance != 0) objectBuffer.Add(new InstanceID() { Tree = output.m_treeInstance });
             if (output.m_propInstance != 0) objectBuffer.Add(new InstanceID() { Prop = output.m_propInstance });
             if (output.m_building != 0) objectBuffer.Add(new InstanceID() { Building = output.m_building });
@@ -137,11 +122,11 @@ namespace Picker
             }
 
             // Try to locate in Find It!
-            if (FISearchbox == null)
+            if (FindIt.Searchbox == null)
             {
                 return;
             }
-            if (FIFilterDropdown == null)
+            if (FindIt.FilterDropdown == null)
             {
                 return;
             }
@@ -149,20 +134,20 @@ namespace Picker
             if (pInfo is PropInfo propInfo)
             {
                 if (propInfo.m_isDecal)
-                    SetFIDropdown("Decal");
+                    FindIt.SetDropdown("Decal");
                 else
-                    SetFIDropdown("Prop");
+                    FindIt.SetDropdown("Prop");
 
-                UITextField TextField = FISearchbox.Find<UITextField>("UITextField");
+                UITextField TextField = FindIt.Searchbox.Find<UITextField>("UITextField");
                 TextField.text = "";
 
                 if (Picker.FindItVersion == 2 && !propInfo.m_isDecal)
                 {
-                    UIComponent UIFilterProp = FISearchbox.Find("UIFilterProp");
+                    UIComponent UIFilterProp = FindIt.Searchbox.Find("UIFilterProp");
                     UIFilterProp.GetComponentInChildren<UIButton>().SimulateClick();
                 }
 
-                ReflectIntoFindIt(propInfo);
+                FindIt.Find(propInfo);
                 return;
             }
 
@@ -177,16 +162,13 @@ namespace Picker
             {
                 //Debug.Log("Info " + info.name + " is a growable (or RICO).");
 
-                SetFIDropdown("Growable");
+                FindIt.SetDropdown("Growable");
 
-                UITextField TextField = FISearchbox.Find<UITextField>("UITextField");
+                UITextField TextField = FindIt.Searchbox.Find<UITextField>("UITextField");
                 TextField.text = "";
 
-                UIComponent UIFilterGrowable = FISearchbox.Find("UIFilterGrowable");
-                UIFilterGrowable.GetComponentInChildren<UIButton>().SimulateClick();
-
                 // Reflect into the scroll panel, starting with the growable panel:
-                ReflectIntoFindIt(info);
+                FindIt.Find(info);
             }
             else
             {
@@ -265,8 +247,8 @@ namespace Picker
             else
             {
                 Debug.Log($"Button not found, falling back to FindIt/All");
-                SetFIDropdown("All");
-                ReflectIntoFindIt(info);
+                FindIt.SetDropdown("All");
+                FindIt.Find(info);
             }
         }
 
@@ -276,23 +258,6 @@ namespace Picker
 
             button.SimulateClick();
             scrollablePanel.ScrollIntoView(button);
-        }
-
-        private static bool IsRicoEnabled()
-        {
-            foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo())
-            {
-                foreach (Assembly assembly in plugin.GetAssemblies())
-                {
-                    if (assembly.GetName().Name.ToLower() == "ploppablerico")
-                    {
-                        Debug.Log("Ploppable RICO found");
-                        return plugin.isEnabled;
-                    }
-                }
-            }
-
-            return false;
         }
 
         public PrefabInfo DefaultPrefab(PrefabInfo resolve)
@@ -365,8 +330,9 @@ namespace Picker
                 component.GetType().GetMethod("OnMouseUp", flags).Invoke(component, new object[] { p });
             }
             else
+            {
                 component.GetType().GetMethod("OnDisabledClick", flags).Invoke(component, new object[] { p });
-
+            }
         }
 
         public override void RenderOverlay(RenderManager.CameraInfo cameraInfo)
