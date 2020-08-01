@@ -26,9 +26,7 @@ namespace Picker
                     hoveredId = (InstanceID)tInstance.GetProperty("id").GetValue(hovered, null); // PO is stored in InstanceID.NetLane
                     object IInfo = tInstance.GetProperty("Info").GetValue(hovered, null);
                     object info = IInfo.GetType().GetProperty("Prefab").GetValue(IInfo, null);
-                    ShowInPanelResolveGrowables(DefaultPrefab((PrefabInfo)info));
-                    //InstanceID id = (InstanceID)hovered.GetType().GetProperty("id").GetValue(hovered, null);
-                    //ShowInPanelResolveGrowables(DefaultPrefab(id.Info()));
+                    Activate((PrefabInfo)info);
                     return true;
                 }
                 else

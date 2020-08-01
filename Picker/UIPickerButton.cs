@@ -119,7 +119,7 @@ namespace Picker
 
         public void OnGUI()
         {
-            //Debug.Log($"OnGUI {PickerTool.instance.enabled} - {OptionsKeymapping.toggleTool.IsPressed(Event.current)}");
+            //Debug.Log($"OnGUI {PickerTool.instance.enabled} - {OptionsKeymapping.toggleTool.IsPressed(Event.current)}, {Event.current.control}+{Event.current.shift}+{Event.current.keyCode}");
             if (!UIView.HasModalInput() && !UIView.HasInputFocus() && OptionsKeymapping.toggleTool.IsPressed(Event.current))
             {
                 bool useMoveIt = false;

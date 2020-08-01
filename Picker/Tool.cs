@@ -96,23 +96,14 @@ namespace Picker
             // A prefab has been selected. Find it in the UI and enable it.
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
             {
-                if (hoveredId.Info() == null)
+                PrefabInfo info = hoveredId.Info();
+                if (info == null)
                 {
                     enabled = false;
                     ToolsModifierControl.SetTool<DefaultTool>();
                     return;
                 }
-                if (Event.current.control == openMenu)
-                {
-                    if (!GetToolFromPrefab(hoveredId.Info()))
-                    {
-                        throw new Exception("Invalid tool choice");
-                    }
-                }
-                else
-                {
-                    ShowInPanelResolveGrowables(DefaultPrefab(hoveredId.Info()));
-                }
+                Activate(info);
             }
 
             // Escape key or RMB hit = disable the tool
@@ -123,37 +114,49 @@ namespace Picker
             }
         }
 
-        private bool GetToolFromPrefab(PrefabInfo info)
+        internal void Activate(PrefabInfo info)
+        {
+            if (Event.current.control == openMenu)
+            {
+                GetToolFromPrefab(DefaultPrefab(info));
+            }
+            else
+            {
+                ShowInPanelResolveGrowables(DefaultPrefab(info));
+            }
+        }
+
+        private void GetToolFromPrefab(PrefabInfo info)
         {
             if (info is BuildingInfo)
             {
                 Singleton<ToolManager>.instance.m_properties.CurrentTool = FindObjectOfType<BuildingTool>();
                 ((BuildingTool)Singleton<ToolManager>.instance.m_properties.CurrentTool).m_prefab = (BuildingInfo)info;
-                return true;
+                return;
             }
 
             if (info is PropInfo)
             {
                 Singleton<ToolManager>.instance.m_properties.CurrentTool = FindObjectOfType<PropTool>();
                 ((PropTool)Singleton<ToolManager>.instance.m_properties.CurrentTool).m_prefab = (PropInfo)info;
-                return true;
+                return;
             }
 
             if (info is TreeInfo)
             {
                 Singleton<ToolManager>.instance.m_properties.CurrentTool = FindObjectOfType<TreeTool>();
                 ((TreeTool)Singleton<ToolManager>.instance.m_properties.CurrentTool).m_prefab = (TreeInfo)info;
-                return true;
+                return;
             }
 
             if (info is NetInfo)
             {
                 Singleton<ToolManager>.instance.m_properties.CurrentTool = FindObjectOfType<NetTool>();
                 ((NetTool)Singleton<ToolManager>.instance.m_properties.CurrentTool).m_prefab = (NetInfo)info;
-                return true;
+                return;
             }
 
-            return false;
+            throw new Exception("Invalid tool choice");
         }
 
         private void ShowInPanelResolveGrowables(PrefabInfo pInfo)
