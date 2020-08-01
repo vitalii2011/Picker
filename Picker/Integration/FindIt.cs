@@ -8,9 +8,6 @@ namespace Picker
 {
     public class FindItManager : MonoBehaviour
     {
-        //Type FindItType, ScrollPanelType;
-        //object FindItInstance, ScrollPanel;
-
         // Presently dependant on FindIt version
         public static Dictionary<String, int> MenuIndex = new Dictionary<string, int>
         {
@@ -101,16 +98,27 @@ namespace Picker
             // Reset the filters
             if (Picker.FindItVersion == 1)
             {
-                if (filterEntry == "Growable")
+                if (filterEntry == "Growable" || filterEntry == "RICO")
                 {
                     UIComponent UIFilterGrowable = Searchbox.Find("UIFilterGrowable");
                     UIFilterGrowable.GetComponentInChildren<UIButton>().SimulateClick();
+
+                    UIDropDown[] dropDowns = Searchbox.GetComponentsInChildren<UIDropDown>();
+                    foreach (UIDropDown d in dropDowns)
+                    {
+                        if (d.items.Length < 7)
+                        { // Reset all except categories menu
+                            d.selectedIndex = 0;
+                        }
+                    }
                 }
             }
             else if (Picker.FindItVersion == 2)
             {
                 MethodInfo resetFilters = Searchbox.GetType().GetMethod("ResetFilters");
                 resetFilters.Invoke(Searchbox, null);
+                MethodInfo search = Searchbox.GetType().GetMethod("Search");
+                search.Invoke(Searchbox, null);
             }
             else
             {
@@ -138,8 +146,6 @@ namespace Picker
             object itemsData = iData.GetValue(ScrollPanel, null);
             object[] itemDataBuffer = itemsData.GetType().GetMethod("ToArray").Invoke(itemsData, null) as object[];
 
-            //Debug.Log($"Buffer Length: {itemDataBuffer.Length}");
-
             for (int i = 0; i < itemDataBuffer.Length; i++)
             {
                 object itemData = itemDataBuffer[i];
@@ -152,7 +158,7 @@ namespace Picker
                 // Display data at this position. Return.
                 if (itemData_currentData_asset_info != null && itemData_currentData_asset_info.name == info.name)
                 {
-                    Debug.Log("Found data at position " + i + " in Find it ScrollablePanel");
+                    //Debug.Log("Found data at position " + i + " in Find it ScrollablePanel");
                     ScrollPanelType.GetMethod("DisplayAt").Invoke(ScrollPanel, new object[] { i });
 
                     string itemDataName = ItemDataType.GetField("name").GetValue(itemData) as string;
@@ -188,7 +194,6 @@ namespace Picker
                 else
                 {
                     StartCoroutine(FindProcess(filterEntry, info, false, ++step));
-                    //Debug.Log($"Object {info.name} not found [P02]");
                 }
             }
         }

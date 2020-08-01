@@ -78,6 +78,14 @@ namespace Picker
 
             group.AddSpace(10);
 
+            checkBox = (UICheckBox)group.AddCheckbox("Open picked item in menu", PickerTool.openMenu.value, (b) =>
+            {
+                PickerTool.openMenu.value = b;
+            });
+            checkBox.tooltip = "Should the menu (including Find It) open \nHold Control while clicking to invert this behaviour.";
+
+            group.AddSpace(10);
+
             ((UIPanel)((UIHelper)group).self).gameObject.AddComponent<OptionsKeymappingMain>();
             UIPanel panel = ((UIHelper)group).self as UIPanel;
 

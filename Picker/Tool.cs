@@ -14,6 +14,7 @@ namespace Picker
         internal UIPickerButton m_button;
 
         public static SavedBool doSetFRTMode = new SavedBool("doSetFRT", Picker.settingsFileName, true, true);
+        public static SavedBool openMenu = new SavedBool("openMenu", Picker.settingsFileName, true, true);
 
         public InstanceID hoveredId = InstanceID.Empty;
 
@@ -101,7 +102,17 @@ namespace Picker
                     ToolsModifierControl.SetTool<DefaultTool>();
                     return;
                 }
-                ShowInPanelResolveGrowables(DefaultPrefab(hoveredId.Info()));
+                if (Event.current.control == openMenu)
+                {
+                    if (!GetToolFromPrefab(hoveredId.Info()))
+                    {
+                        throw new Exception("Invalid tool choice");
+                    }
+                }
+                else
+                {
+                    ShowInPanelResolveGrowables(DefaultPrefab(hoveredId.Info()));
+                }
             }
 
             // Escape key or RMB hit = disable the tool
@@ -112,9 +123,42 @@ namespace Picker
             }
         }
 
+        private bool GetToolFromPrefab(PrefabInfo info)
+        {
+            if (info is BuildingInfo)
+            {
+                Singleton<ToolManager>.instance.m_properties.CurrentTool = FindObjectOfType<BuildingTool>();
+                ((BuildingTool)Singleton<ToolManager>.instance.m_properties.CurrentTool).m_prefab = (BuildingInfo)info;
+                return true;
+            }
+
+            if (info is PropInfo)
+            {
+                Singleton<ToolManager>.instance.m_properties.CurrentTool = FindObjectOfType<PropTool>();
+                ((PropTool)Singleton<ToolManager>.instance.m_properties.CurrentTool).m_prefab = (PropInfo)info;
+                return true;
+            }
+
+            if (info is TreeInfo)
+            {
+                Singleton<ToolManager>.instance.m_properties.CurrentTool = FindObjectOfType<TreeTool>();
+                ((TreeTool)Singleton<ToolManager>.instance.m_properties.CurrentTool).m_prefab = (TreeInfo)info;
+                return true;
+            }
+
+            if (info is NetInfo)
+            {
+                Singleton<ToolManager>.instance.m_properties.CurrentTool = FindObjectOfType<NetTool>();
+                ((NetTool)Singleton<ToolManager>.instance.m_properties.CurrentTool).m_prefab = (NetInfo)info;
+                return true;
+            }
+
+            return false;
+        }
+
         private void ShowInPanelResolveGrowables(PrefabInfo pInfo)
         {
-            Debug.Log($"Hovered: {pInfo.name} ({hoveredId.Type})\nB:{hoveredId.Building}, P/D:{hoveredId.Prop}, PO:{hoveredId.NetLane}, N:{hoveredId.NetNode}, S:{hoveredId.NetSegment}");
+            //Debug.Log($"Hovered: {pInfo.name} ({hoveredId.Type})\nB:{hoveredId.Building}, P/D:{hoveredId.Prop}, PO:{hoveredId.NetLane}, N:{hoveredId.NetNode}, S:{hoveredId.NetSegment}");
             if (!(pInfo is BuildingInfo || pInfo is PropInfo))
             {
                 ShowInPanel(pInfo);
@@ -133,20 +177,6 @@ namespace Picker
 
             if (pInfo is PropInfo propInfo)
             {
-                //if (propInfo.m_isDecal)
-                //    FindIt.SetDropdown("Decal");
-                //else
-                //    FindIt.SetDropdown("Prop");
-
-                //UITextField TextField = FindIt.Searchbox.Find<UITextField>("UITextField");
-                //TextField.text = "";
-
-                //if (Picker.FindItVersion == 2 && !propInfo.m_isDecal)
-                //{
-                //    UIComponent UIFilterProp = FindIt.Searchbox.Find("UIFilterProp");
-                //    UIFilterProp.GetComponentInChildren<UIButton>().SimulateClick();
-                //}
-
                 FindIt.Find((propInfo.m_isDecal ? "Decal" : "Prop"), propInfo);
                 return;
             }
@@ -160,14 +190,11 @@ namespace Picker
                 (info.m_class.m_service == ItemClass.Service.Tourism)
                 ))
             {
-                //Debug.Log("Info " + info.name + " is a growable (or RICO).");
-
                 // Reflect into the scroll panel, starting with the growable panel:
                 FindIt.Find("Growable", info);
             }
             else
             {
-                //Debug.Log("Info " + info.name + " is not a growable.");
                 ShowInPanel(pInfo);
             }
         }
