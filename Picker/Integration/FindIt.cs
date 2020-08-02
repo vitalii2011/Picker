@@ -117,8 +117,8 @@ namespace Picker
             {
                 MethodInfo resetFilters = Searchbox.GetType().GetMethod("ResetFilters");
                 resetFilters.Invoke(Searchbox, null);
-                MethodInfo search = Searchbox.GetType().GetMethod("Search");
-                search.Invoke(Searchbox, null);
+                //MethodInfo search = Searchbox.GetType().GetMethod("Search");
+                //search.Invoke(Searchbox, null);
             }
             else
             {
