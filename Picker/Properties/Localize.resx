@@ -147,4 +147,7 @@
   <data name="keybind_ToggleTool" xml:space="preserve">
     <value>Toggle Tool</value>
   </data>
+  <data name="Tmp" xml:space="preserve">
+    <value>Temp</value>
+  </data>
 </root>

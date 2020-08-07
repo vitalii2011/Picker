@@ -149,5 +149,14 @@ namespace Picker.Properties {
                 return ResourceManager.GetString("options_Unknown", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Temp.
+        /// </summary>
+        internal static string Tmp {
+            get {
+                return ResourceManager.GetString("Tmp", resourceCulture);
+            }
+        }
     }
 }
