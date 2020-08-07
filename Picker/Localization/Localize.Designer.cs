@@ -149,14 +149,5 @@ namespace Picker.Localization {
                 return ResourceManager.GetString("options_Unknown", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Temp2.
-        /// </summary>
-        internal static string Tmp2 {
-            get {
-                return ResourceManager.GetString("Tmp2", resourceCulture);
-            }
-        }
     }
 }
