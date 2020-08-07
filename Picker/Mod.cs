@@ -1,18 +1,25 @@
 ﻿using ColossalFramework;
+using ColossalFramework.Globalization;
 using ColossalFramework.Plugins;
 using ColossalFramework.UI;
 using ICities;
+using Picker.Properties;
 using System;
+using System.Globalization;
 using System.Reflection;
 using UnityEngine;
 
 namespace Picker
 {
-    public class Picker : IUserMod
+    public class Picker : LoadingExtensionBase, IUserMod
     {
+        public static CultureInfo Culture => new CultureInfo(SingletonLite<LocaleManager>.instance.language);
+
         public string Name => "Picker 1.3";
-        public string Description => "Eyedrop any object from the map, by Elektrix and Quboid";
+        public string Description => Localize.mod_Description;
         public const string settingsFileName = "Picker";
+
+        private static GameObject GO_FindIt;
 
         private static int findItVersion = -1;
         internal static int FindItVersion
@@ -56,8 +63,64 @@ namespace Picker
             }
         }
 
+        public override void OnLevelLoaded(LoadMode mode)
+        {
+            if (!(mode == LoadMode.LoadGame || mode == LoadMode.NewGame || mode == LoadMode.NewGameFromScenario))
+            {
+                return;
+            }
+
+            InstallMod();
+        }
+
+        public override void OnLevelUnloading()
+        {
+            UninstallMod();
+        }
+
+        public static void InstallMod()
+        {
+            if (PickerTool.instance == null)
+            {
+                ToolController toolController = ToolsModifierControl.toolController;
+                PickerTool.instance = toolController.gameObject.AddComponent<PickerTool>();
+                PickerTool.instance.enabled = false;
+            }
+            else
+            {
+                Debug.Log($"Picker: InstallMod with existing instance!");
+            }
+
+            GO_FindIt = new GameObject();
+            PickerTool.FindIt = GO_FindIt.AddComponent<FindItManager>();
+        }
+
+        public static void UninstallMod()
+        {
+            if (ToolsModifierControl.toolController.CurrentTool is PickerTool)
+                ToolsModifierControl.SetTool<DefaultTool>();
+
+            if (PickerTool.instance != null)
+            {
+                PickerTool.instance.enabled = false;
+            }
+
+            UnityEngine.Object.Destroy(GO_FindIt);
+            PickerTool.FindIt = null;
+            UnityEngine.Object.Destroy(PickerTool.instance.m_button);
+            PickerTool.instance.m_button = null;
+            UnityEngine.Object.Destroy(PickerTool.instance);
+            PickerTool.instance = null;
+
+            LocaleManager.eventLocaleChanged -= LocaleChanged;
+        }
+
         public void OnSettingsUI(UIHelperBase helper)
         {
+            LocaleManager.eventLocaleChanged -= LocaleChanged;
+            LocaleChanged();
+            LocaleManager.eventLocaleChanged += LocaleChanged;
+
             UIHelperBase group = helper.AddGroup(Name);
 
             //Assembly assembly = null;
@@ -70,19 +133,19 @@ namespace Picker
             //    }
             //}
 
-            UICheckBox checkBox = (UICheckBox)group.AddCheckbox("Set ground/elevated/etc mode in Fine Road Tools", PickerTool.doSetFRTMode.value, (b) =>
+            UICheckBox checkBox = (UICheckBox)group.AddCheckbox(Localize.options_SetFRTMode, PickerTool.doSetFRTMode.value, (b) =>
             {
                 PickerTool.doSetFRTMode.value = b;
             });
-            checkBox.tooltip = "If FRT is enabled, should Picker set ground/elevated/etc to match picked segment?\nHold Shift while clicking to invert this behaviour.";
+            checkBox.tooltip = Localize.options_SetFRTMode_Tooltip;
 
             group.AddSpace(10);
 
-            checkBox = (UICheckBox)group.AddCheckbox("Open picked item in menu", PickerTool.openMenu.value, (b) =>
+            checkBox = (UICheckBox)group.AddCheckbox(Localize.options_OpenMenu, PickerTool.openMenu.value, (b) =>
             {
                 PickerTool.openMenu.value = b;
             });
-            checkBox.tooltip = "Should the menu (including Find It) open \nHold Control while clicking to invert this behaviour.";
+            checkBox.tooltip = Localize.options_OpenMenu_Tooltip;
 
             group.AddSpace(10);
 
@@ -91,7 +154,7 @@ namespace Picker
 
             group.AddSpace(20);
 
-            UIButton button = (UIButton)group.AddButton("Reset Button Position", () =>
+            UIButton button = (UIButton)group.AddButton(Localize.options_ResetButtonPosition, () =>
             {
                 UIPickerButton.savedX.value = -1000;
                 UIPickerButton.savedY.value = -1000;
@@ -107,16 +170,16 @@ namespace Picker
             switch (GetFindItVersion())
             {
                 case 0:
-                    fitLabel.text += "Not found";
+                    fitLabel.text += Localize.options_NotFound;
                     break;
                 case 1:
-                    fitLabel.text += "Found (v1)";
+                    fitLabel.text += Localize.options_Found + " (v1)";
                     break;
                 case 2:
-                    fitLabel.text += "Found (v2)";
+                    fitLabel.text += Localize.options_Found + " (v2)";
                     break;
                 default:
-                    fitLabel.text += "Unknown";
+                    fitLabel.text += Localize.options_Unknown;
                     break;
             }
 
@@ -126,13 +189,13 @@ namespace Picker
             switch (GetMoveItVersion())
             {
                 case 0:
-                    mitLabel.text += "Not found";
+                    mitLabel.text += Localize.options_NotFound;
                     break;
                 case 1:
-                    mitLabel.text += "Found";
+                    mitLabel.text += Localize.options_Found;
                     break;
                 default:
-                    mitLabel.text += "Unknown";
+                    mitLabel.text += Localize.options_Unknown;
                     break;
             }
 
@@ -142,14 +205,20 @@ namespace Picker
             switch (PickerTool.isNS2Installed())
             {
                 case false:
-                    ns2Label.text += "Not found";
+                    ns2Label.text += Localize.options_NotFound;
                     break;
                 case true:
-                    ns2Label.text += "Found";
+                    ns2Label.text += Localize.options_Found;
                     break;
             }
 
             group.AddSpace(20);
+        }
+
+        internal static void LocaleChanged()
+        {
+            Debug.Log($"Picker Locale changed {Localize.Culture?.Name}->{Culture.Name}");
+            Localize.Culture = Culture;
         }
 
         internal static Assembly GetAssembly(string name)
@@ -227,7 +296,7 @@ namespace Picker
         {
             if (LoadingManager.exists && LoadingManager.instance.m_loadingComplete)
             {
-                IngameLoader.InstallMod();
+                InstallMod();
             }
         }
 
@@ -235,7 +304,7 @@ namespace Picker
         {
             if (LoadingManager.exists && LoadingManager.instance.m_loadingComplete)
             {
-                IngameLoader.UninstallMod();
+                UninstallMod();
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Globalization;
 using ColossalFramework.UI;
+using Picker.Properties;
 using System.Reflection;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Picker
     {
         private void Awake()
         {
-            AddKeymapping("Toggle Tool", toggleTool);
+            AddKeymapping(Localize.keybind_ToggleTool, toggleTool);
         }
     }
 
