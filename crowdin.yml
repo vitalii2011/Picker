@@ -1,1 +1,3 @@
-files: []
+files:
+  - source: Picker/Properties/Localize.resx
+    translation: Picker/Properties/Localize.%two_letters_code%.resx
