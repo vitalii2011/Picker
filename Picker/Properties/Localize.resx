@@ -139,7 +139,7 @@
     <value>Found</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Unknown 2</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
     <value>Eyedrop any object from the map, by Elektrix and Quboid</value>
@@ -147,7 +147,7 @@
   <data name="keybind_ToggleTool" xml:space="preserve">
     <value>Toggle Tool</value>
   </data>
-  <data name="Tmp" xml:space="preserve">
-    <value>Temp</value>
+  <data name="Tmp2" xml:space="preserve">
+    <value>Temp2</value>
   </data>
 </root>

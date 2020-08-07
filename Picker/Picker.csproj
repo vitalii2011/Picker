@@ -75,7 +75,6 @@
     <EmbeddedResource Include="Icons\Picker.png" />
     <EmbeddedResource Include="Icons\Picker_focused.png" />
     <EmbeddedResource Include="Icons\Picker_hover.png" />
-    <EmbeddedResource Include="Properties\Localize.de.resx" />
     <EmbeddedResource Include="Properties\Localize.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localize.Designer.cs</LastGenOutput>

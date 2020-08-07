@@ -142,7 +142,7 @@ namespace Picker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown.
+        ///   Looks up a localized string similar to Unknown 2.
         /// </summary>
         internal static string options_Unknown {
             get {
@@ -151,11 +151,11 @@ namespace Picker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Temp.
+        ///   Looks up a localized string similar to Temp2.
         /// </summary>
-        internal static string Tmp {
+        internal static string Tmp2 {
             get {
-                return ResourceManager.GetString("Tmp", resourceCulture);
+                return ResourceManager.GetString("Tmp2", resourceCulture);
             }
         }
     }
