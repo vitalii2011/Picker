@@ -128,27 +128,32 @@ Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't tr
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
     <value>Jeśli FRT jest włączony, czy chcesz ustawić ground/elevated/itp., aby dopasować wybraną segment?\nPrzytrzymaj Shift podczas klikania, aby odwrócić to zachowanie.</value>
     <comment>options_SetFRTMode_Tooltip
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
+Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
+
+\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Open picked item in menu</value>
+    <value>Otwórz wybrany element w menu</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>Should the menu (including Find It) open \nHold Control while clicking to invert this behaviour.</value>
+    <value>Powinno otworzyć menu (w tym Znajdź It) \nPrzytrzymaj Sterowanie, klikając aby odwrócić to zachowanie.</value>
+    <comment>options_OpenMenu_Tooltip
+
+\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
-    <value>Not found</value>
+    <value>Nie znaleziono</value>
   </data>
   <data name="options_Found" xml:space="preserve">
-    <value>Found</value>
+    <value>Wyszukaj pliki</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Nieznana</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Eyedrop any object from the map, by Elektrix and Quboid</value>
+    <value>Eyedrop dowolny obiekt z mapy, Elektrix i Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
-    <value>Toggle Tool</value>
+    <value>Przełącz drzewo</value>
   </data>
 </root>
