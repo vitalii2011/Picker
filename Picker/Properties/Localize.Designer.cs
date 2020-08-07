@@ -142,7 +142,7 @@ namespace Picker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown 2.
+        ///   Looks up a localized string similar to Unknown.
         /// </summary>
         internal static string options_Unknown {
             get {
