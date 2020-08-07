@@ -128,13 +128,18 @@ Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't tr
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
     <value>如果启用了FRT，是否应选择选定的地面/高程/高程/等以匹配选定的片段？\n在单击反转时按住 Shift 键。</value>
     <comment>options_SetFRTMode_Tooltip
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
+Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
+
+\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
     <value>在菜单中打开选中的项目</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
     <value>如果菜单(包括查找It) 打开，点击此处倒置时按住 \n。</value>
+    <comment>options_OpenMenu_Tooltip
+
+\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
     <value>未发现</value>
