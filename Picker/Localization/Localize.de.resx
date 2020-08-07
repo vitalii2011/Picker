@@ -128,13 +128,18 @@ Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't tr
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
     <value>Wenn FRT aktiviert ist, sollte man den ground/elevated/etc auf das gewählte Segment setzen?\nHalten Sie Shift gedrückt, während Sie anklicken, um dieses Verhalten umzukehren.</value>
     <comment>options_SetFRTMode_Tooltip
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
+Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
+
+\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
     <value>Ausgewählten Eintrag im Menü öffnen</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
     <value>Soll das Menü (einschließlich Finden) geöffnet werden \nHalte die Steuerung, während du klickst, um dieses Verhalten umzukehren.</value>
+    <comment>options_OpenMenu_Tooltip
+
+\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
     <value>Nicht gefunden</value>
