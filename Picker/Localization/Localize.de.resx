@@ -122,9 +122,13 @@
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
     <value>Boden/Erhebung/etc Modus in Feinstraßen-Tools setzen</value>
+    <comment>options_SetFRTMode
+Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>Wenn FRT aktiviert ist, sollte man den Boden/erhöhten/etc auf das gewählte Segment setzen?\nHalten Sie Shift gedrückt, während Sie anklicken, um dieses Verhalten umzukehren.</value>
+    <value>Wenn FRT aktiviert ist, sollte man den ground/elevated/etc auf das gewählte Segment setzen?\nHalten Sie Shift gedrückt, während Sie anklicken, um dieses Verhalten umzukehren.</value>
+    <comment>options_SetFRTMode_Tooltip
+Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
     <value>Ausgewählten Eintrag im Menü öffnen</value>
