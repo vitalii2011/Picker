@@ -13,7 +13,7 @@ namespace Picker
 {
     public class Picker : LoadingExtensionBase, IUserMod
     {
-        public static CultureInfo Culture => new CultureInfo(SingletonLite<LocaleManager>.instance.language);
+        static CultureInfo Culture => new CultureInfo(SingletonLite<LocaleManager>.instance.language == "zh" ? "zh-cn" : SingletonLite<LocaleManager>.instance.language);
 
         public string Name => "Picker 1.3";
         public string Description => Localize.mod_Description;

@@ -78,6 +78,8 @@
     <EmbeddedResource Include="Localization\Localize.de.resx" />
     <EmbeddedResource Include="Localization\Localize.es.resx" />
     <EmbeddedResource Include="Localization\Localize.fr.resx" />
+    <EmbeddedResource Include="Localization\Localize.ja.resx" />
+    <EmbeddedResource Include="Localization\Localize.ko.resx" />
     <EmbeddedResource Include="Localization\Localize.pl.resx" />
     <EmbeddedResource Include="Localization\Localize.pt.resx" />
     <EmbeddedResource Include="Localization\Localize.resx">
@@ -85,6 +87,8 @@
       <LastGenOutput>Localize.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Localization\Localize.ru.resx" />
+    <EmbeddedResource Include="Localization\Localize.th.resx" />
+    <EmbeddedResource Include="Localization\Localize.zh-cn.resx" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
