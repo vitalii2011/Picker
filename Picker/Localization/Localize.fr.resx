@@ -118,42 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>Knopfposition zurücksetzen</value>
+    <value>Bouton de geste</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Boden/Erhebung/etc Modus in Feinstraßen-Tools setzen</value>
+    <value>Régler le mode ground/elevated/etc dans les outils fins de la route</value>
     <comment>options_SetFRTMode
 Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>Wenn FRT aktiviert ist, sollte man den ground/elevated/etc auf das gewählte Segment setzen?\nHalten Sie Shift gedrückt, während Sie anklicken, um dieses Verhalten umzukehren.</value>
+    <value>Si FRT est activé, le sélecteur doit-il définir le ground/elevated/etc pour correspondre au segment sélectionné ?\nMaintenir la touche Maj enfoncée tout en cliquant pour inverser ce comportement.</value>
     <comment>options_SetFRTMode_Tooltip
 Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
 
 \n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Ausgewählten Eintrag im Menü öffnen</value>
+    <value>Ouvrir l'élément sélectionné dans le menu</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>Soll das Menü (einschließlich Finden) geöffnet werden \nHalte die Steuerung, während du klickst, um dieses Verhalten umzukehren.</value>
+    <value>Si le menu (y compris Find It) ouvre \nMaintenir le contrôle tout en cliquant pour inverser ce comportement.</value>
     <comment>options_OpenMenu_Tooltip
 
 \n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
-    <value>Nicht gefunden</value>
+    <value>Non trouvé</value>
   </data>
   <data name="options_Found" xml:space="preserve">
-    <value>Gefunden</value>
+    <value>Trouvée</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>Unbekannt</value>
+    <value>Inconnu</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Augentropfen Sie jedes Objekt von der Karte, von Elektrix und Quboid</value>
+    <value>Eyedrop n'importe quel objet de la carte, par Elektrix et Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
-    <value>Werkzeug Umschalten</value>
+    <value>Basculer l'arbre</value>
   </data>
 </root>
