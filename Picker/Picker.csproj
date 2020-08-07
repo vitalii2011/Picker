@@ -76,10 +76,15 @@
     <EmbeddedResource Include="Icons\Picker_focused.png" />
     <EmbeddedResource Include="Icons\Picker_hover.png" />
     <EmbeddedResource Include="Localization\Localize.de.resx" />
+    <EmbeddedResource Include="Localization\Localize.es.resx" />
+    <EmbeddedResource Include="Localization\Localize.fr.resx" />
+    <EmbeddedResource Include="Localization\Localize.pl.resx" />
+    <EmbeddedResource Include="Localization\Localize.pt.resx" />
     <EmbeddedResource Include="Localization\Localize.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localize.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Localize.ru.resx" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
