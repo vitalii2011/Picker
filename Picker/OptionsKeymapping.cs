@@ -1,7 +1,7 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Globalization;
 using ColossalFramework.UI;
-using Picker.Properties;
+using Picker.Localization;
 using System.Reflection;
 using UnityEngine;
 

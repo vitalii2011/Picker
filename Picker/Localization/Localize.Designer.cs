@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Picker.Properties {
+namespace Picker.Localization {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Picker.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Picker.Properties.Localize", typeof(Localize).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Picker.Localization.Localize", typeof(Localize).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

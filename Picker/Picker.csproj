@@ -58,7 +58,7 @@
     <Compile Include="Integration\FindIt.cs" />
     <Compile Include="Integration\MoveIt.cs" />
     <Compile Include="Integration\NetworkSkins2.cs" />
-    <Compile Include="Properties\Localize.Designer.cs">
+    <Compile Include="Localization\Localize.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Localize.resx</DependentUpon>
@@ -75,14 +75,12 @@
     <EmbeddedResource Include="Icons\Picker.png" />
     <EmbeddedResource Include="Icons\Picker_focused.png" />
     <EmbeddedResource Include="Icons\Picker_hover.png" />
-    <EmbeddedResource Include="Properties\Localize.resx">
+    <EmbeddedResource Include="Localization\Localize.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localize.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Localization\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>set "ModDir=%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\"

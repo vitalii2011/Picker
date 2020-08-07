@@ -3,7 +3,7 @@ using ColossalFramework.Globalization;
 using ColossalFramework.Plugins;
 using ColossalFramework.UI;
 using ICities;
-using Picker.Properties;
+using Picker.Localization;
 using System;
 using System.Globalization;
 using System.Reflection;
