@@ -118,36 +118,33 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>Reset Button Position</value>
+    <value>Knopfposition zurücksetzen</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Set ground/elevated/etc mode in Fine Road Tools</value>
+    <value>Boden/Erhebung/etc Modus in Feinstraßen-Tools setzen</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>If FRT is enabled, should Picker set ground/elevated/etc to match picked segment?\nHold Shift while clicking to invert this behaviour.</value>
+    <value>Wenn FRT aktiviert ist, sollte man den Boden/erhöhten/etc auf das gewählte Segment setzen?\nHalten Sie Shift gedrückt, während Sie anklicken, um dieses Verhalten umzukehren.</value>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Open picked item in menu</value>
+    <value>Ausgewählten Eintrag im Menü öffnen</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>Should the menu (including Find It) open \nHold Control while clicking to invert this behaviour.</value>
+    <value>Soll das Menü (einschließlich Finden) geöffnet werden \nHalte die Steuerung, während du klickst, um dieses Verhalten umzukehren.</value>
   </data>
   <data name="options_NotFound" xml:space="preserve">
-    <value>Not found</value>
+    <value>Nicht gefunden</value>
   </data>
   <data name="options_Found" xml:space="preserve">
-    <value>Found</value>
+    <value>Gefunden</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Unbekannt</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Eyedrop any object from the map, by Elektrix and Quboid</value>
+    <value>Augentropfen Sie jedes Objekt von der Karte, von Elektrix und Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
-    <value>Toggle Tool</value>
-  </data>
-  <data name="Tmp2" xml:space="preserve">
-    <value>Temp2</value>
+    <value>Werkzeug Umschalten</value>
   </data>
 </root>
