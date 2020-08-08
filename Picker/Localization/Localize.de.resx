@@ -121,11 +121,11 @@
     <value>Buttonposition zurücksetzen</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Set ground/elevated/etc mode in Fine Road Tool</value>
+    <value>Boden/Erhebung/etc Modus in Fine Road Tool setzen</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>If FRT is enabled, should Picker set Ground/Elevated/etc to match picked segment?
-Hold Shift while clicking to invert this behaviour.</value>
+    <value>Wenn Fine Road Tool eingeschaltet ist, soll Picker Boden/Erhebung/usw an das ausgewählte Segment angleichen?
+Halte Shift beim klicken, um das verhalten umzukehren.</value>
     <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
