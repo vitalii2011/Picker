@@ -106,7 +106,7 @@ namespace Picker.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Should the menu (including Find It) open
+        ///   Looks up a localized string similar to Should the menu (including Find It) open?
         ///Hold Control while clicking to invert this behaviour..
         /// </summary>
         internal static string options_OpenMenu_Tooltip {

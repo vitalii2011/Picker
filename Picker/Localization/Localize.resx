@@ -131,7 +131,7 @@ Hold Shift while clicking to invert this behaviour.</value>
     <value>Open picked item in menu</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>Should the menu (including Find It) open
+    <value>Should the menu (including Find It) open?
 Hold Control while clicking to invert this behaviour.</value>
   </data>
   <data name="options_NotFound" xml:space="preserve">
