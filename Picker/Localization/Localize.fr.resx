@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>Bouton de geste</value>
+    <value>Reset Button Position</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
     <value>Régler le mode ground/elevated/etc dans les outils fins de la route</value>
