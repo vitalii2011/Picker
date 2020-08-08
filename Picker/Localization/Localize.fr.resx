@@ -126,6 +126,7 @@
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
     <value>If FRT is enabled, should Picker set ground/elevated/etc to match picked segment?
 Hold Shift while clicking to invert this behaviour.</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
     <value>Open picked item in menu</value>
@@ -133,6 +134,7 @@ Hold Shift while clicking to invert this behaviour.</value>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
     <value>Should the menu (including Find It) open?
 Hold Control while clicking to invert this behaviour.</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
     <value>Not found</value>
