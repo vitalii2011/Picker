@@ -106,7 +106,8 @@ namespace Picker.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Should the menu (including Find It) open \nHold Control while clicking to invert this behaviour..
+        ///   Looks up a localized string similar to Should the menu (including Find It) open
+        ///Hold Control while clicking to invert this behaviour..
         /// </summary>
         internal static string options_OpenMenu_Tooltip {
             get {
@@ -133,7 +134,8 @@ namespace Picker.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If FRT is enabled, should Picker set ground/elevated/etc to match picked segment?\nHold Shift while clicking to invert this behaviour..
+        ///   Looks up a localized string similar to If FRT is enabled, should Picker set ground/elevated/etc to match picked segment?
+        ///Hold Shift while clicking to invert this behaviour..
         /// </summary>
         internal static string options_SetFRTMode_Tooltip {
             get {
