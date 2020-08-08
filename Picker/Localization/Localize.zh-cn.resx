@@ -118,42 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>按钮位置</value>
+    <value>Reset Button Position</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>在精良道路工具中设置地面/高程/等模式</value>
+    <value>Set ground/elevated/etc mode in Fine Road Tools</value>
     <comment>options_SetFRTMode
 Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>如果启用了FRT，是否应选择选定的地面/高程/高程/等以匹配选定的片段？\n在单击反转时按住 Shift 键。</value>
+    <value>If FRT is enabled, should Picker set ground/elevated/etc to match picked segment?\nHold Shift while clicking to invert this behaviour.</value>
     <comment>options_SetFRTMode_Tooltip
 Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
 
 \n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>在菜单中打开选中的项目</value>
+    <value>Open picked item in menu</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>如果菜单(包括查找It) 打开，点击此处倒置时按住 \n。</value>
+    <value>Should the menu (including Find It) open \nHold Control while clicking to invert this behaviour.</value>
     <comment>options_OpenMenu_Tooltip
 
 \n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
-    <value>未发现</value>
+    <value>Not found</value>
   </data>
   <data name="options_Found" xml:space="preserve">
-    <value>已找到</value>
+    <value>Found</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>未知的</value>
+    <value>Unknown</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Elektrix和Quboid从地图上创建任何对象</value>
+    <value>Eyedrop any object from the map, by Elektrix and Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
-    <value>切换工具</value>
+    <value>Toggle Tool</value>
   </data>
 </root>
