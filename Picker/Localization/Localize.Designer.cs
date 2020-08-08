@@ -125,7 +125,7 @@ namespace Picker.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Set ground/elevated/etc mode in Fine Road Tools.
+        ///   Looks up a localized string similar to Set ground/elevated/etc mode in Fine Road Tool.
         /// </summary>
         internal static string options_SetFRTMode {
             get {
@@ -134,7 +134,7 @@ namespace Picker.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If FRT is enabled, should Picker set ground/elevated/etc to match picked segment?
+        ///   Looks up a localized string similar to If FRT is enabled, should Picker set Ground/Elevated/etc to match picked segment?
         ///Hold Shift while clicking to invert this behaviour..
         /// </summary>
         internal static string options_SetFRTMode_Tooltip {
