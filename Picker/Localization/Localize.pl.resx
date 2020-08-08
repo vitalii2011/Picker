@@ -121,15 +121,15 @@
     <value>Resetuj pozycję przycisku</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Set ground/elevated/etc mode in Fine Road Tools</value>
+    <value>Set ground/elevated/etc mode in Fine Road Tool</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>If FRT is enabled, should Picker set ground/elevated/etc to match picked segment?
+    <value>If FRT is enabled, should Picker set Ground/Elevated/etc to match picked segment?
 Hold Shift while clicking to invert this behaviour.</value>
     <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Otwórz zaznaczony obiekt w menu</value>
+    <value>Otwórz wybrany obiekt w menu</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
     <value>Czy otworzyć menu (w tym Find It)?
@@ -146,7 +146,7 @@ Przytrzymaj Control, aby odwrócić to zachowanie.</value>
     <value>Nieznane</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Znajdź dowolny obiekt z mapy, Elektrix i Quboid</value>
+    <value>Znajdź dowolny obiekt z mapy, autorstwa Elektrix i Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
     <value>Przełącz Narzędzie</value>
