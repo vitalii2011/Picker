@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>채팅 창 위치 초기화</value>
+    <value>Reset Button Position</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
     <value>Set ground/elevated/etc mode in Fine Road Tools</value>
@@ -142,13 +142,13 @@ Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't tr
 \n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
-    <value>찾을 수 없음</value>
+    <value>Not found</value>
   </data>
   <data name="options_Found" xml:space="preserve">
-    <value>찾음</value>
+    <value>Found</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>알 수 없음</value>
+    <value>Unknown</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
     <value>Eyedrop any object from the map, by Elektrix and Quboid</value>
