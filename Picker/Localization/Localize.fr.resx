@@ -121,39 +121,39 @@
     <value>Reset Button Position</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Régler le mode ground/elevated/etc dans les outils fins de la route</value>
+    <value>Set ground/elevated/etc mode in Fine Road Tools</value>
     <comment>options_SetFRTMode
 Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>Si FRT est activé, le sélecteur doit-il définir le ground/elevated/etc pour correspondre au segment sélectionné ?\nMaintenir la touche Maj enfoncée tout en cliquant pour inverser ce comportement.</value>
+    <value>If FRT is enabled, should Picker set ground/elevated/etc to match picked segment?\nHold Shift while clicking to invert this behaviour.</value>
     <comment>options_SetFRTMode_Tooltip
 Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
 
 \n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Ouvrir l'élément sélectionné dans le menu</value>
+    <value>Open picked item in menu</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>Si le menu (y compris Find It) ouvre \nMaintenir le contrôle tout en cliquant pour inverser ce comportement.</value>
+    <value>Should the menu (including Find It) open \nHold Control while clicking to invert this behaviour.</value>
     <comment>options_OpenMenu_Tooltip
 
 \n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
-    <value>Non trouvé</value>
+    <value>Not found</value>
   </data>
   <data name="options_Found" xml:space="preserve">
-    <value>Trouvée</value>
+    <value>Found</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>Inconnu</value>
+    <value>Unknown</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Eyedrop n'importe quel objet de la carte, par Elektrix et Quboid</value>
+    <value>Eyedrop any object from the map, by Elektrix and Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
-    <value>Basculer l'arbre</value>
+    <value>Toggle Tool</value>
   </data>
 </root>
