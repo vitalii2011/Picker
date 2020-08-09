@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>Reset Button Position</value>
+    <value>Restablecer la posición del botón</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Set ground/elevated/etc mode in Fine Road Tool</value>
+    <value>Establecer elevación (en suelo, puente, etc) en Fine Road Tool</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>If FRT is enabled, should Picker set Ground/Elevated/etc to match picked segment?
-Hold Shift while clicking to invert this behaviour.</value>
+    <value>Si Fine Road Tool está activado, debería Picker usar la misma elevación (en suelo, puente)?
+Mantén pulsado Shift mientras haces click para invertir esta función.</value>
     <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Open picked item in menu</value>
+    <value>Abrir el item seleccionado en el menú</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
     <value>Should the menu (including Find It) open?
