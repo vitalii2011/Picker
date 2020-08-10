@@ -129,7 +129,7 @@ Hold Shift while clicking to invert this behaviour.</value>
     <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Open picked item in menu</value>
+    <value>Abrir o item escolhido no menu</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
     <value>Should the menu (including Find It) open?
@@ -137,13 +137,13 @@ Hold Control while clicking to invert this behaviour.</value>
     <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
-    <value>Not found</value>
+    <value>Não encontrado</value>
   </data>
   <data name="options_Found" xml:space="preserve">
-    <value>Found</value>
+    <value>Encontrado</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Desconhecido</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
     <value>Eyedrop any object from the map, by Elektrix and Quboid</value>
