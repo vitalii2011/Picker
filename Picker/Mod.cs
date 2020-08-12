@@ -15,7 +15,7 @@ namespace Picker
     {
         static CultureInfo Culture => new CultureInfo(SingletonLite<LocaleManager>.instance.language == "zh" ? "zh-cn" : SingletonLite<LocaleManager>.instance.language);
 
-        public string Name => "Picker 1.3";
+        public string Name => "Picker 1.4";
         public string Description => Localize.mod_Description;
         public const string settingsFileName = "Picker";
 
@@ -65,7 +65,7 @@ namespace Picker
 
         public override void OnLevelLoaded(LoadMode mode)
         {
-            if (!(mode == LoadMode.LoadGame || mode == LoadMode.NewGame || mode == LoadMode.NewGameFromScenario))
+            if (!(mode == LoadMode.LoadGame || mode == LoadMode.NewGame || mode == LoadMode.NewGameFromScenario || mode == LoadMode.LoadScenario || mode == LoadMode.NewMap || mode == LoadMode.LoadMap))
             {
                 return;
             }
