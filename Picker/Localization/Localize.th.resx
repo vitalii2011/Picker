@@ -121,7 +121,7 @@
     <value>Reset Button Position</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Set ground/elevated/etc mode in Fine Road Tool</value>
+    <value>ปรับตั้งโหมดระดับดิน/ยกระดับ/อื่น ๆ ใน Fine Road Tool</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
     <value>If FRT is enabled, should Picker set Ground/Elevated/etc to match picked segment?
@@ -146,7 +146,7 @@ Hold Control while clicking to invert this behaviour.</value>
     <value>Unknown</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Eyedrop any object from the map, by Elektrix and Quboid</value>
+    <value>ดูดวัตถุใด ๆ จากแผนที่ โดย Elektrix และ Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
     <value>Toggle Tool</value>
