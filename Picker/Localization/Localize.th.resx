@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>Reset Button Position</value>
+    <value>รีเซ็ตตำแหน่งปุ่ม</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
     <value>ปรับตั้งโหมดระดับดิน/ยกระดับ/อื่น ๆ ใน Fine Road Tool</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>If FRT is enabled, should Picker set Ground/Elevated/etc to match picked segment?
-Hold Shift while clicking to invert this behaviour.</value>
+    <value>ถ้า Fine Road Tool เปิดใช้งานอยู่ ควรให้ Picker ปรับตั้งโหมดระดับดิน/ยกระดับ/อื่น ๆ เพื่อให้ตรงกับที่ส่วนเลือกหรือไม่?
+กดปุ่ม Shift ค้างไว้ขณะที่กำลังคลิกอยู่ เพื่อทำการสลับส่วนที่ถูกเลือก</value>
     <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Open picked item in menu</value>
+    <value>เปิดสิ่งที่เลือกไว้ในเมนู</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
     <value>Should the menu (including Find It) open?
@@ -137,13 +137,13 @@ Hold Control while clicking to invert this behaviour.</value>
     <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
-    <value>Not found</value>
+    <value>ไม่พบสิ่งที่ต้องการ</value>
   </data>
   <data name="options_Found" xml:space="preserve">
-    <value>Found</value>
+    <value>พบแล้ว</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>ไม่รู้จัก</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
     <value>ดูดวัตถุใด ๆ จากแผนที่ โดย Elektrix และ Quboid</value>
