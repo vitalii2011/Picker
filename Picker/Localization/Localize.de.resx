@@ -118,28 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>Knopfposition zurücksetzen</value>
+    <value>Buttonposition zurücksetzen</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Boden/Erhebung/etc Modus in Feinstraßen-Tools setzen</value>
-    <comment>options_SetFRTMode
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
+    <value>Boden/Erhebung/etc Modus in Fine Road Tool setzen</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>Wenn FRT aktiviert ist, sollte man den ground/elevated/etc auf das gewählte Segment setzen?\nHalten Sie Shift gedrückt, während Sie anklicken, um dieses Verhalten umzukehren.</value>
-    <comment>options_SetFRTMode_Tooltip
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
-
-\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
+    <value>Wenn Fine Road Tool eingeschaltet ist, soll Picker Boden/Erhebung/usw an das ausgewählte Segment angleichen?
+Halte Shift beim klicken, um das verhalten umzukehren.</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Ausgewählten Eintrag im Menü öffnen</value>
+    <value>Ausgewähltes Objekt im Menü öffnen</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>Soll das Menü (einschließlich Finden) geöffnet werden \nHalte die Steuerung, während du klickst, um dieses Verhalten umzukehren.</value>
-    <comment>options_OpenMenu_Tooltip
-
-\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
+    <value>Soll sich das Menü (Find It eingeschlossen) öffnen?
+Halte Shift beim klicken, um das verhalten umzukehren.</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
     <value>Nicht gefunden</value>
@@ -151,9 +146,9 @@ Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't tr
     <value>Unbekannt</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Augentropfen Sie jedes Objekt von der Karte, von Elektrix und Quboid</value>
+    <value>Wähle jedes Objekt auf der Karte aus, von Elektrix und Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
-    <value>Werkzeug Umschalten</value>
+    <value>Werkzeug umschalten</value>
   </data>
 </root>

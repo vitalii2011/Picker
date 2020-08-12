@@ -118,28 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>ボタンの位置をリセット</value>
+    <value>リセットボタンの位置</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>ファインロードツールでグランド/エレベーター/etcモードを設定する</value>
-    <comment>options_SetFRTMode
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
+    <value>Fine Road Toolで地上・高架モードを設定</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>FRTが有効な場合、選択したセグメントと一致するようにPickerを設定する必要がありますか？\nShiftを押しながらクリックするとこの動作を反転します。</value>
-    <comment>options_SetFRTMode_Tooltip
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
-
-\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
+    <value>FRTが有効な場合、ピックアップされたセグメントと一致するようにPickerを設定する必要がありますか？
+Shiftを押しながらクリックしてこの動作を反転します。</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
     <value>選択したアイテムをメニューで開く</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>この動作を反転するためにクリックして \nホールドコントロールを開くメニュー(Find Itを含む) が開いた場合。</value>
-    <comment>options_OpenMenu_Tooltip
-
-\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
+    <value>Find It! 等のメニューを開く必要がありますか？
+この動作を反転するにはCTRLキーを長押ししながらクリックします。</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
     <value>見つかりません</value>
@@ -151,9 +146,9 @@ Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't tr
     <value>不明</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>ElektrixとQuboidによる任意のオブジェクトを地図からスポイトする</value>
+    <value>マップ上の任意のオブジェクトをスポイト - Elektrix と Quboid の制作</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
-    <value>ツリーをトグル</value>
+    <value>ツールの切り替え</value>
   </data>
 </root>

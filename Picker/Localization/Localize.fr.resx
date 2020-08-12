@@ -118,42 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>Bouton de geste</value>
+    <value>Position du bouton Reset</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Régler le mode ground/elevated/etc dans les outils fins de la route</value>
-    <comment>options_SetFRTMode
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
+    <value>[Fine Road Tool] Faire suivre la config Ground/Elev/Bridge etc</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>Si FRT est activé, le sélecteur doit-il définir le ground/elevated/etc pour correspondre au segment sélectionné ?\nMaintenir la touche Maj enfoncée tout en cliquant pour inverser ce comportement.</value>
-    <comment>options_SetFRTMode_Tooltip
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
-
-\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
+    <value>[Avec Fine Road Tool actif] Picker utilisera le segment sélectionné dans le mode en cours (ou l'inverse avec Shift enfoncé).</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Ouvrir l'élément sélectionné dans le menu</value>
+    <value>Ouvrir le menu et aller à l'object sélectionné</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>Si le menu (y compris Find It) ouvre \nMaintenir le contrôle tout en cliquant pour inverser ce comportement.</value>
-    <comment>options_OpenMenu_Tooltip
-
-\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
+    <value>Dois-je avertir votre mère que vous passez beaucoup trop de temps devant votre écran?
+Tenez CTRL pour inverser pendant la sélection d'item.</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
-    <value>Non trouvé</value>
+    <value>Introuvable</value>
   </data>
   <data name="options_Found" xml:space="preserve">
-    <value>Trouvée</value>
+    <value>Trouvé</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
     <value>Inconnu</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Eyedrop n'importe quel objet de la carte, par Elektrix et Quboid</value>
+    <value>Permet de pointer n'importe quel item en place dans son menu d'origine, par Elektrix &amp; Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
-    <value>Basculer l'arbre</value>
+    <value>Activer l'outil Picker</value>
   </data>
 </root>

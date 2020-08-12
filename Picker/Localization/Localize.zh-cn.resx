@@ -118,40 +118,35 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>按钮位置</value>
+    <value>重设按钮位置</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>在精良道路工具中设置地面/高程/等模式</value>
-    <comment>options_SetFRTMode
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
+    <value>在Fine Road Tool中设置地面/高架/等模式</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>如果启用了FRT，是否应选择选定的地面/高程/高程/等以匹配选定的片段？\n在单击反转时按住 Shift 键。</value>
-    <comment>options_SetFRTMode_Tooltip
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
-
-\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
+    <value>如果启用FRT，拾取器是否应设定地面/高架模式等以匹配需要拾取的路段？
+单击时按住Shift键可以反转这个动作。</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>在菜单中打开选中的项目</value>
+    <value>在菜单中打开拾取中的项目</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>如果菜单(包括查找It) 打开，点击此处倒置时按住 \n。</value>
-    <comment>options_OpenMenu_Tooltip
-
-\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
+    <value>菜单（包括Find It）应该打开吗？
+单击时按住Control键可以反转这个动作。</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
-    <value>未发现</value>
+    <value>找不到内容</value>
   </data>
   <data name="options_Found" xml:space="preserve">
     <value>已找到</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>未知的</value>
+    <value>未知</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Elektrix和Quboid从地图上创建任何对象</value>
+    <value>从地图中拾取任何物体对象，by Elektrix and Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
     <value>切换工具</value>

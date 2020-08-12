@@ -118,28 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>Posição do botão curtir</value>
+    <value>Redefinir a posição do botão</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Definir modo de ground/elevated/etc em Ferramentas de Estrada fina</value>
-    <comment>options_SetFRTMode
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.</comment>
+    <value>Definir o modo de chão/elevação/etc na Ferramenta de Ruas Precisa</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
-    <value>Se o FRT estiver ativado, o selecionador deve definir o ground/elevated/etc para combinar o segmento escolhido?\nSegure Shift enquanto clica para inverter este comportamento.</value>
-    <comment>options_SetFRTMode_Tooltip
-Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't translate anything.
-
-\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
+    <value>Se a FRP estiver habilitado, o Picker deve definir o Chão/Elevação/etc de maneira correspondente ao segmento selecionado?
+Segure o Shift e clique para inverter este comportamento.</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_OpenMenu" xml:space="preserve">
-    <value>Abrir item escolhido no menu</value>
+    <value>Abrir o item selecionado no menu</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>Se o menu (incluindo o Encontrar It) abra \nsegure Control enquanto clica para inverter este comportamento.</value>
-    <comment>options_OpenMenu_Tooltip
-
-\n is a line-break, try to make each line approximately the same length as in the English version (even if you need to have more line-breaks).</comment>
+    <value>O menu (incluindo Find It) deve abrir?
+Segure a tecla Control e clique para inverter este comportamento.</value>
+    <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
     <value>Não encontrado</value>
@@ -151,9 +146,9 @@ Don't translate Fine Road Tools or its mode names (ground/etc) as FRT doesn't tr
     <value>Desconhecido</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Eyedrop qualquer objeto do mapa, por Elektrix e Quboid</value>
+    <value>Encontrar qualquer objeto no mapa, por Elektrik e Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
-    <value>Alterar árvore</value>
+    <value>Alternar Ferramenta</value>
   </data>
 </root>
