@@ -132,8 +132,8 @@
     <value>เปิดสิ่งที่เลือกไว้ในเมนู</value>
   </data>
   <data name="options_OpenMenu_Tooltip" xml:space="preserve">
-    <value>Should the menu (including Find It) open?
-Hold Control while clicking to invert this behaviour.</value>
+    <value>ควรให้เมนู (รวมไปถึง Find It) เปิดหรือไม่?
+กดปุ่ม Control บนแป้นพิมพ์ค้างไว้ขณะกำลังคลิก เพื่อกระทำตรงกันข้าม</value>
     <comment>Try to keep each line length approximately the same length as in English, even if this requires a different number of lines.</comment>
   </data>
   <data name="options_NotFound" xml:space="preserve">
