@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="options_ResetButtonPosition" xml:space="preserve">
-    <value>Reset Button Position</value>
+    <value>重置按钮位置</value>
   </data>
   <data name="options_SetFRTMode" xml:space="preserve">
-    <value>Set ground/elevated/etc mode in Fine Road Tool</value>
+    <value>在Fine Road Tool中设置地面/高架/等模式</value>
   </data>
   <data name="options_SetFRTMode_Tooltip" xml:space="preserve">
     <value>If FRT is enabled, should Picker set Ground/Elevated/etc to match picked segment?
