@@ -149,6 +149,6 @@ Hold Control while clicking to invert this behaviour.</value>
     <value>ดูดวัตถุใด ๆ จากแผนที่ โดย Elektrix และ Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
-    <value>Toggle Tool</value>
+    <value>เปิด/ปิดเครื่องมือ</value>
   </data>
 </root>
