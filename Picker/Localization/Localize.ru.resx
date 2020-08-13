@@ -143,10 +143,10 @@
     <value>Обнаружен</value>
   </data>
   <data name="options_Unknown" xml:space="preserve">
-    <value>Не известно</value>
+    <value>Неизвестно</value>
   </data>
   <data name="mod_Description" xml:space="preserve">
-    <value>Пипетка для для любых объектов на карте от Elektrix и Quboid</value>
+    <value>Пипетка для любых объектов на карте от Elektrix и Quboid</value>
   </data>
   <data name="keybind_ToggleTool" xml:space="preserve">
     <value>Активировать инструмент</value>
